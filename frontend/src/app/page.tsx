@@ -6,12 +6,40 @@ export default function Home() {
   
   const [repoUrl, setRepoUrl] = useState("");
   const [zipFile, setZipFile] = useState<File | null>(null);
+  const [result, setResult] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Repo URL:", repoUrl);
-    console.log("ZIP File:", zipFile);
-    // Next: send to backend API
+    setResult(null);
+
+    if (repoUrl && zipFile) {
+      alert("Please submit either a GitHub URL or a ZIP file, not both.");
+      return;
+    }
+
+    if (repoUrl) {
+       console.log("Repo URL:", repoUrl);
+      const response = await fetch("http://127.0.0.1:8000/summarize-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repo_url: repoUrl }),
+      });
+      const data = await response.json();
+      console.log(data);
+      setResult(data.summary);
+    } else if (zipFile) {
+      console.log("ZIP File:", zipFile);
+      const formData = new FormData();
+      formData.append("file", zipFile);
+
+      const response = await fetch("http://127.0.0.1:8000/summarize-zip", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      console.log(data);
+      setResult(data.summary);
+    }
   }
 
   return (
@@ -35,6 +63,18 @@ export default function Home() {
           className="border rounded px-3 py-2 w-80"
           onChange={e => setZipFile(e.target.files?.[0] || null)}
         />
+        {zipFile && (
+          <div className="flex flex-col items-center">
+            <span className="mb-2 text-sm text-gray-700">{zipFile.name}</span>
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              onClick={() => setZipFile(null)}
+            >
+              Remove ZIP
+            </button>
+          </div>
+        )}
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
