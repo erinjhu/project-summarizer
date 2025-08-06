@@ -20,8 +20,14 @@ def read_root():
 async def summarize_url(request: Request):
     data = await request.json()
     repo_url = data.get("repo_url")
-    return {"summary": f"Received repo URL: {repo_url}"}
+    return {
+        "summary": f"Received repo URL: {repo_url}",
+        "concepts": ["API", "React", "FastAPI"] 
+    }
 
 @app.post("/summarize-zip")
 async def summarize_zip(file: UploadFile = File(...)):
-    return {"summary": f"Received repo zip: {file.filename}"}
+    return {
+        "summary": f"Received repo URL: {file.filename}",
+        "concepts": ["API", "React", "FastAPI"]  # <-- change key here
+    }

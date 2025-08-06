@@ -1,12 +1,14 @@
 "use client"
 import Image from "next/image";
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 export default function Home() {
   
   const [repoUrl, setRepoUrl] = useState("");
   const [zipFile, setZipFile] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
+  const [concepts, setConcepts] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -14,6 +16,11 @@ export default function Home() {
 
     if (repoUrl && zipFile) {
       alert("Please submit either a GitHub URL or a ZIP file, not both.");
+      return;
+    }
+
+    if (!repoUrl && !zipFile) {
+      alert("Please enter a GitHub URL or upload a ZIP file.");
       return;
     }
 
@@ -27,6 +34,7 @@ export default function Home() {
       const data = await response.json();
       console.log(data);
       setResult(data.summary);
+      setConcepts(data.concepts || []);
     } else if (zipFile) {
       console.log("ZIP File:", zipFile);
       const formData = new FormData();
@@ -39,6 +47,7 @@ export default function Home() {
       const data = await response.json();
       console.log(data);
       setResult(data.summary);
+      setConcepts(data.concepts || []);
     }
   }
 
@@ -62,6 +71,7 @@ export default function Home() {
           accept=".zip"
           className="border rounded px-3 py-2 w-80"
           onChange={e => setZipFile(e.target.files?.[0] || null)}
+          ref={fileInputRef}
         />
         {zipFile && (
           <div className="flex flex-col items-center">
@@ -69,7 +79,10 @@ export default function Home() {
             <button
               type="button"
               className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              onClick={() => setZipFile(null)}
+              onClick={() => {
+                setZipFile(null)
+                if (fileInputRef.current) fileInputRef.current.value = "";
+              }}
             >
               Remove ZIP
             </button>
@@ -84,6 +97,12 @@ export default function Home() {
       </form>
       <section className="mt-8 w-full max-w-2xl mx-auto">
         <h1>Results Placeholder</h1>
+        <div className="mt-4">
+          <h3 className="font-semibold mb-1">Concepts:</h3>
+          <ul className="list-disc pl-5">
+            {concepts.map(c => <li key={c}>{c}</li>)}
+          </ul>
+        </div>
       </section>
     </div>
   );
