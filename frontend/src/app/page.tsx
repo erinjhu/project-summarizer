@@ -9,10 +9,12 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [concepts, setConcepts] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setResult(null);
+    setLoading(true)
 
     if (repoUrl && zipFile) {
       alert("Please submit either a GitHub URL or a ZIP file, not both.");
@@ -35,6 +37,7 @@ export default function Home() {
       console.log(data);
       setResult(data.summary);
       setConcepts(data.concepts || []);
+      setLoading(false);
     } else if (zipFile) {
       console.log("ZIP File:", zipFile);
       const formData = new FormData();
@@ -45,9 +48,12 @@ export default function Home() {
         body: formData,
       });
       const data = await response.json();
+      console.log("Backend response:", data); // Add this line
+      console.log("Concepts from backend:", data.concepts);
       console.log(data);
       setResult(data.summary);
       setConcepts(data.concepts || []);
+      setLoading(false)
     }
   }
 
@@ -96,13 +102,24 @@ export default function Home() {
         </button>
       </form>
       <section className="mt-8 w-full max-w-2xl mx-auto">
-        <h1>Results Placeholder</h1>
-        <div className="mt-4">
-          <h3 className="font-semibold mb-1">Concepts:</h3>
-          <ul className="list-disc pl-5">
-            {concepts.map(c => <li key={c}>{c}</li>)}
-          </ul>
-        </div>
+        {loading ? (
+          <div className="text-blue-600 font-semibold">Loading...</div>
+        ) : result ? (
+          <div className="bg-white p-4 rounded shadow text-gray-900">
+            <h2 className="font-bold mb-2">Summary</h2>
+            <pre className="whitespace-pre-wrap">{result}</pre>
+            {concepts.length > 0 && (
+              <div className="mt-4">
+                <h3 className="font-semibold mb-1">Concepts:</h3>
+                <ul className="list-disc pl-5">
+                  {concepts.map(c => <li key={c}>{c}</li>)}
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : (
+          <h1>Results Placeholder</h1>
+        )}
       </section>
     </div>
   );

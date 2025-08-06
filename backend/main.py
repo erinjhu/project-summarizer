@@ -28,6 +28,6 @@ async def summarize_url(request: Request):
 @app.post("/summarize-zip")
 async def summarize_zip(file: UploadFile = File(...)):
     return {
-        "summary": f"Received repo URL: {file.filename}",
-        "concepts": ["API", "React", "FastAPI"]  # <-- change key here
+        "summary": f"Received zip file: {file.filename}",
+        "concepts": ["API", "React", "FastAPI"]  
     }
