@@ -20,14 +20,23 @@ def read_root():
 async def summarize_url(request: Request):
     data = await request.json()
     repo_url = data.get("repo_url")
+    summary_depth = data.get("summary_depth", "high")
+    summary = (
+        f"High-level summary for {repo_url}" if summary_depth == "high"
+        else f"Technical summary for {repo_url}"
+    )
     return {
-        "summary": f"Received repo URL: {repo_url}",
+        "summary": summary,
         "concepts": ["API", "React", "FastAPI"] 
     }
 
 @app.post("/summarize-zip")
-async def summarize_zip(file: UploadFile = File(...)):
+async def summarize_zip(file: UploadFile = File(...), summary_depth: str = "high"):
+    summary = (
+        f"High-level summary for {file.filename}" if summary_depth == "high"
+        else f"Technical summary for {file.filename}"
+    )
     return {
-        "summary": f"Received zip file: {file.filename}",
-        "concepts": ["API", "React", "FastAPI"]  
+        "summary": summary,
+        "concepts": ["API", "React", "FastAPI"]
     }
