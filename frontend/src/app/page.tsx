@@ -2,6 +2,13 @@
 import Image from "next/image";
 import { useState, useRef } from "react"
 
+const OPTIONS = [
+    { key: "general", label: "General Summary" },
+    { key: "resume", label: "Resume Bullets" },
+    { key: "technical", label: "Technical Notes" },
+    { key: "interview", label: "Interview Practice" },
+  ];
+
 export default function Home() {
   
   const [repoUrl, setRepoUrl] = useState("");
@@ -11,6 +18,15 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  function toggleOption(key: string) {
+    setSelectedOptions(prev =>
+      prev.includes(key)
+        ? prev.filter(k => k !== key)
+        : [...prev, key]
+    );
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +46,7 @@ export default function Home() {
         return;
       }
 
-      if (repoUrl && !repoUrl.startsWith("github.com/")) {
+      if (repoUrl && !repoUrl.startsWith("https://github.com/")) {
         setError("Please enter a valid GitHub repository URL.");
         setLoading(false);
         return;
@@ -41,7 +57,10 @@ export default function Home() {
         const response = await fetch("http://127.0.0.1:8000/summarize-url", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ repo_url: repoUrl}),
+          body: JSON.stringify({
+            repo_url: repoUrl,
+            selected_options: selectedOptions, 
+          }),
         });
         const data = await response.json();
         console.log(data);
@@ -58,7 +77,7 @@ export default function Home() {
           body: formData,
         });
         const data = await response.json();
-        console.log("Backend response:", data); // Add this line
+        console.log("Backend response:", data); 
         console.log("Concepts from backend:", data.concepts);
         console.log(data);
         setResult(data.summary);
@@ -84,7 +103,7 @@ export default function Home() {
         className="flex flex-col gap-4 items-center mb-8"
         onSubmit={handleSubmit}
       >
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-10">
           <div className="flex flex-row gap-4 w-full justify-center items-center">
             <input
               type="text"
@@ -109,12 +128,30 @@ export default function Home() {
               
             </div>
           )}
+
+          <div className="flex flex-row gap-4 w-full justify-center items-center mt-7">
+            {OPTIONS.map(opt => (
+              <button
+                type="button"
+                key={opt.key}
+                className={`flex-1 px-4 py-2 rounded border 
+                  ${selectedOptions.includes(opt.key)
+                    ? "bg-blue-700 text-white"
+                    : "bg-white text-blue-700 border-blue-700"}
+                  hover:bg-blue-800 hover:text-white transition`}
+                onClick={() => toggleOption(opt.key)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+
           <div className="flex flex-row gap-4 w-full justify-center items-center">
             <button
               type="submit"
-              className="mt-7 bg-white text-black px-4 py-2 hover:text-white rounded hover:bg-blue-700 w-full"
+              className="mt-7 bg-blue-800 text-white px-4 py-2 hover:text-white rounded hover:bg-blue-700 w-full hover:border"
             >
-              Summarize
+              Generate Selected Options
             </button>
           </div>
           <div className="flex flex-row gap-4 w-full justify-center items-center">
@@ -127,6 +164,7 @@ export default function Home() {
                 setError(null);
                 setRepoUrl("");
                 setZipFile(null);
+                setSelectedOptions([]);
                 if (fileInputRef.current) fileInputRef.current.value = "";
               }}
             >
