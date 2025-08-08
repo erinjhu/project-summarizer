@@ -36,7 +36,11 @@ export default function Home() {
         return;
       }
 
-      if (repoUrl && !repoUrl.startsWith("https://github.com/")) {
+      let normalizedUrl = repoUrl.trim();
+      if (normalizedUrl.startsWith("github.com/")) {
+        normalizedUrl = "https://" + normalizedUrl;
+      }
+      if (!normalizedUrl.startsWith("https://github.com/")) {
         setError("Please enter a valid GitHub repository URL.");
         setLoading(false);
         return;
@@ -48,7 +52,7 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            repo_url: repoUrl,
+            repo_url: normalizedUrl,
           }),
         });
         const data = await response.json();
