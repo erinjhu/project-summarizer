@@ -18,7 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<string>(OPTIONS[0].key);
-
+  const [copiedTab, setCopiedTab] = useState<string | null>(null);
 
 
   async function handleSubmit(e: React.FormEvent) {
@@ -86,6 +86,11 @@ export default function Home() {
 
     
   }
+
+  function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text);
+  }
+
   return (
     <div className="font-sans min-h-screen p-8 pb-20 sm:p-20">
       <h1 className="text-7xl font-bold mb-0 mt-40 text-center">
@@ -126,7 +131,7 @@ export default function Home() {
             <div className="flex flex-row gap-4 w-full justify-center items-center">
               <button
                 type="button"
-                className="mt-3 text-white px-4 py-2 rounded hover:bg-white hover:text-black w-full border"
+                className="mt-2 text-white px-4 py-2 rounded hover:bg-white hover:text-black w-full border"
                 onClick={() => {
                   setResult(null);
                   setConcepts([]);
@@ -166,6 +171,25 @@ export default function Home() {
               {activeTab === "general" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4" >Summary</h2>
+                  <button
+                    className="text-blue-700 border border-blue-700 px-2 py-1 rounded hover:bg-blue-700 hover:text-white text-sm"
+                    onClick={() => {
+                      const text = [
+                        "Summary",
+                        "What it is",
+                        ...result.summary.what_it_is,
+                        "Impact",
+                        ...result.summary.impact,
+                        "How it works",
+                        ...result.summary.how_it_works,
+                      ].join("\n");
+                      copyToClipboard(text);
+                      setCopiedTab(activeTab);
+                      setTimeout(() => setCopiedTab(null), 2000);
+                    }}
+                  >
+                    {copiedTab === activeTab ? "✓ Copied!" : "Copy"}
+                  </button>
                   <h3 className="font-semibold">What it is</h3>
                   <ul className="list-disc pl-5">
                     {result.summary.what_it_is.map((item: string, idx: number) => (
@@ -189,6 +213,18 @@ export default function Home() {
               {activeTab === "resume" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Resume Bullets</h2>
+                  <button
+                    className="text-blue-700 border border-blue-700 px-2 py-1 rounded hover:bg-blue-700 hover:text-white text-sm"
+                    onClick={() => 
+                      {
+                        copyToClipboard(result.resume_bullets.join("\n"))
+                        setCopiedTab(activeTab);
+                        setTimeout(() => setCopiedTab(null), 2000);
+                      }
+                    }
+                  >
+                     {copiedTab === activeTab ? "✓ Copied!" : "Copy"}
+                  </button>
                   <ul className="list-disc pl-5">
                     {result.resume_bullets.map((item: string, idx: number) => (
                       <li key={idx}>{item}</li>
@@ -199,6 +235,18 @@ export default function Home() {
               {activeTab === "technical" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Technical Notes</h2>
+                  <button
+                  className="text-blue-700 border border-blue-700 px-2 py-1 rounded hover:bg-blue-700 hover:text-white text-sm"
+                  onClick={() => {
+                    const text = Object.entries(result.technical_notes)
+                      .map(([feature, notes]) =>
+                        [feature, ...notes].join("\n")
+                      ).join("\n\n");
+                    copyToClipboard(text);
+                  }}
+                >
+                   {copiedTab === activeTab ? "✓ Copied!" : "Copy"}
+                </button>
                   {Object.entries(result.technical_notes).map(([feature, notes]: [string, string[]]) => (
                     <div key={feature} className="mb-4">
                       <h3 className="font-semibold">{feature}</h3>
@@ -220,6 +268,18 @@ export default function Home() {
               {activeTab === "interview" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Interview Questions</h2>
+                  <button
+                    className="text-blue-700 border border-blue-700 px-2 py-1 rounded hover:bg-blue-700 hover:text-white text-sm"
+                    onClick={() => 
+                      {
+                        copyToClipboard(result.interview_questions.join("\n"))
+                        setCopiedTab(activeTab);
+                        setTimeout(() => setCopiedTab(null), 2000);
+                      }
+                    }
+                  >
+                     {copiedTab === activeTab ? "✓ Copied!" : "Copy"}
+                  </button>
                   <ul className="list-disc pl-5">
                     {result.interview_questions.map((item: string, idx: number) => (
                       <li key={idx}>
