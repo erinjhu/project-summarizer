@@ -13,22 +13,13 @@ const OPTIONS = [
 export default function Home() {
   
   const [repoUrl, setRepoUrl] = useState("");
-  const [zipFile, setZipFile] = useState<File | null>(null);
   const [result, setResult] = useState<any>(null);
   const [concepts, setConcepts] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>(OPTIONS[0].key);
 
-  function toggleOption(key: string) {
-    setSelectedOptions(prev =>
-      prev.includes(key)
-        ? prev.filter(k => k !== key)
-        : [...prev, key]
-    );
-  }
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,13 +29,10 @@ export default function Home() {
     setLoading(true);
 
     try {
-      if (repoUrl && zipFile) {
-        alert("Please submit either a GitHub URL or a ZIP file, not both.");
-        return;
-      }
 
-      if (!repoUrl && !zipFile) {
-        alert("Please enter a GitHub URL or upload a ZIP file.");
+      if (!repoUrl) {
+        alert("Please enter a GitHub URL.");
+        setLoading(false);
         return;
       }
 
@@ -61,7 +49,6 @@ export default function Home() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             repo_url: repoUrl,
-            selected_options: selectedOptions, 
           }),
         });
         const data = await response.json();
@@ -109,54 +96,27 @@ export default function Home() {
             className="flex flex-col gap-4 items-center mb-8"
             onSubmit={handleSubmit}
           >
-            <div className="flex flex-row gap-4 w-full justify-center items-center">
+            <div className="flex flex-row gap-4 w-full justify-center items-center ">
               <input
                 type="text"
                 placeholder="Paste GitHub repo URL"
                 value={repoUrl}
-                className="border rounded px-3 py-2 w-80"
+                className="border rounded px-3 py-2 w-full"
                 onChange={e => setRepoUrl(e.target.value)}
               />
-              <span className="font-bold text-white mx-2 items-center">OR</span>
-              <input
-                type="file"
-                accept=".zip"
-                className="border rounded px-3 py-2 w-80"
-                onChange={e => setZipFile(e.target.files?.[0] || null)}
-                ref={fileInputRef}
-              />
+              
             </div>
             
-            {zipFile && (
-              <div className="flex flex-col items-center">
-                <span className="mb-2 text-sm text-gray-700">{zipFile.name}</span>
-                
-              </div>
-            )}
+  
 
-            <div className="flex flex-row gap-4 w-full justify-center items-center mt-7">
-              {OPTIONS.map(opt => (
-                <button
-                  type="button"
-                  key={opt.key}
-                  className={`flex-1 px-4 py-2 rounded border 
-                    ${selectedOptions.includes(opt.key)
-                      ? "bg-blue-700 text-white"
-                      : "bg-white text-blue-700 border-blue-700"}
-                    hover:bg-blue-800 hover:text-white transition`}
-                  onClick={() => toggleOption(opt.key)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
+
 
             <div className="flex flex-row gap-4 w-full justify-center items-center">
               <button
                 type="submit"
                 className="mt-7 bg-blue-800 text-white px-4 py-2 hover:text-white rounded hover:bg-blue-700 w-full hover:border"
               >
-                Generate Selected Options
+                Generate
               </button>
             </div>
             <div className="flex flex-row gap-4 w-full justify-center items-center">
@@ -168,9 +128,6 @@ export default function Home() {
                   setConcepts([]);
                   setError(null);
                   setRepoUrl("");
-                  setZipFile(null);
-                  setSelectedOptions([]);
-                  if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
               >
                 Clear
@@ -181,7 +138,7 @@ export default function Home() {
                 <button
                   key={opt.key}
                   type="button"
-                  className={`flex-1 px-4 py-2 rounded-t border-b-2 transition
+                  className={`flex-1 px-4 py-2 h-16 rounded-t border-b-2 transition
                     ${activeTab === opt.key
                       ? "border-blue-700 text-blue-700 bg-white"
                       : "border-transparent text-gray-500 bg-gray-100"}
