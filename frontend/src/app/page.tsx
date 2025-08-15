@@ -19,6 +19,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<string>(OPTIONS[0].key);
   const [copiedTab, setCopiedTab] = useState<string | null>(null);
+  const [jobDescription, setJobDescription] = useState("");
 
 
   async function handleSubmit(e: React.FormEvent) {
@@ -53,30 +54,16 @@ export default function Home() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             repo_url: normalizedUrl,
+            job_description: jobDescription,
           }),
         });
         const data = await response.json();
         console.log(data);
+        console.log(jobDescription);
         setResult(data);
         setConcepts(data.concepts || []);
         setLoading(false);
-      } else if (zipFile) {
-        console.log("ZIP File:", zipFile);
-        const formData = new FormData();
-        formData.append("file", zipFile);
-
-        const response = await fetch("http://127.0.0.1:8000/summarize-zip", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        console.log("Backend response:", data); 
-        console.log("Concepts from backend:", data.concepts);
-        console.log(data);
-        setResult(data.summary);
-        setConcepts(data.concepts || []);
-        setLoading(false)
-      }
+      } 
     } catch (err){
       setError("Something went wrong. Please try again.");
     }
@@ -105,7 +92,7 @@ export default function Home() {
             className="flex flex-col gap-4 items-center mb-8"
             onSubmit={handleSubmit}
           >
-            <div className="flex flex-row gap-4 w-full justify-center items-center ">
+            <div className="flex flex-col gap-4 w-full ">
               <input
                 type="text"
                 placeholder="Paste GitHub repo URL"
@@ -113,7 +100,13 @@ export default function Home() {
                 className="border rounded px-3 py-2 w-full"
                 onChange={e => setRepoUrl(e.target.value)}
               />
-              
+              <textarea
+                placeholder="Paste the job description"
+                value={jobDescription}
+                onChange={e => setJobDescription(e.target.value)}
+                className="border rounded px-3 py-2 w-full mt-4 min-h-[100px]"
+              />
+            
             </div>
             
   
@@ -159,6 +152,10 @@ export default function Home() {
               ))}
             </div>
           </form>
+        </div>
+        <div className="bg-gray-900 text-white p-4 rounded my-4 w-[42rem] mx-auto">
+          <strong>Job Description Preview:</strong>
+          <pre className="whitespace-pre-wrap">{jobDescription}</pre>
         </div>
         <section className="mt-8 w-[42rem] mx-auto">
           {error && (
