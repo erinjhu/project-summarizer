@@ -5,7 +5,10 @@ module.exports = {
     "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+       fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+    },
   },
   plugins: [],
-}
+}}

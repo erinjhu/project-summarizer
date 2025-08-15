@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation"
 
 export default function Resume() {
     const [collapsed, setCollapsed] = useState(false);
-    const [selectedTab, setSelectedTab] = useState("Resume");
+    const [selectedTab, setSelectedTab] = useState("Interview");
     const router = useRouter();
 
     return (
         <div className="bg-neutral-900 min-h-screen flex">
             <div className="flex-1 overflow-y-auto">
-                <h1>Interview</h1>
+                <h1 className="font-sans">Interview</h1>
                 <p>Scrollable main content</p>
             </div>
             <div
@@ -28,7 +28,7 @@ export default function Resume() {
                         <div className="justify-center mt-4">
                             <div className="flex rounded-full border-2 overflow-hidden w-full border-neutral-500">
                                 <button 
-                                    className={`flex-1 px-6 py-2 focus:outline-none ${
+                                    className={`flex-1 px-6 py-2 focus:outline-none font-sans ${
                                         selectedTab === "Resume"
                                         ? "bg-blue-900 text-white rounded-full border-2 mx-1 my-1 border-neutral-500"
                                         : "text-gray-300"
@@ -43,7 +43,7 @@ export default function Resume() {
                                     Resume
                                 </button>
                                 <button
-                                className={`flex-1 px-6 py-2 focus:outline-none ${
+                                className={`flex-1 px-6 py-2 focus:outline-none font-sans ${
                                     selectedTab === "Interview"
                                     ? "bg-blue-900 text-white rounded-full border-2 mx-1 my-1 border-neutral-500"
                                     : "text-gray-300"
