@@ -153,10 +153,10 @@ export default function Home() {
             </div>
           </form>
         </div>
-        <div className="bg-gray-900 text-white p-4 rounded my-4 w-[42rem] mx-auto">
+        {/* <div className="bg-gray-900 text-white p-4 rounded my-4 w-[42rem] mx-auto">
           <strong>Job Description Preview:</strong>
           <pre className="whitespace-pre-wrap">{jobDescription}</pre>
-        </div>
+        </div> */}
         <section className="mt-8 w-[42rem] mx-auto">
           {error && (
             <div className="text-red-600 font-semibold mb-4">{error}</div>
