@@ -70,6 +70,7 @@ export default function Resume() {
 
                 {!collapsed && (
                     <div className="px-3">
+                    
                         {/* Structure */}
                         <div className="font-sans mt-3">
                             <h2 className="text-white mb-2">Preparing for the role</h2>
