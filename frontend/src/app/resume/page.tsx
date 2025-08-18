@@ -1,6 +1,8 @@
 "use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon } from "@heroicons/react/24/solid";
+
 
 export default function Resume() {
     const [collapsed, setCollapsed] = useState(false);
@@ -221,21 +223,46 @@ export default function Resume() {
                         placeholder="Edit version name"
                         className="w-full h-8 bg-neutral-800 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                     />
-                    <div className="flex gap-4">
-                        <div className="flex-1 bg-neutral-900 p-4 rounded-lg">
-                            <h2 className="text-3xl text-left mb-4">Name goes here</h2>
+                    <div className="flex gap-4 mt-4">
+                        <div className="flex-1 bg-neutral-900 rounded-lg">
+                            <div className="flex items-center gap-2 mb-4">
+                                <h2 className="text-3xl text-left">Name goes here</h2>
+                                <button 
+                                    className="p-1 hover:bg-neutral-700 rounded"
+                                    onClick={() => {}}
+                                >
+                                    <PencilIcon className="h-6 w-6 text-gray-300" />
+                                </button>
+                            </div>
+
                             <ul className="list-disc list-inside text-gray-300">
                                 <li>Replace this with generated resume bullet text</li>
                                 <li>Bullet point 2</li>
                                 <li>Bullet point 3</li>
                             </ul>
                         </div>
-                        <div className="w-1/5 p-4 rounded-lg flex flex-col gap-2">
-                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
-                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
-                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
-                            <button className="rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">Button 1</button>
+                        <div className="w-1/5 rounded-lg flex flex-col gap-2">
+                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
+                                <ClipboardIcon className="ml-4 h-5 w-5" />
+                                Copy title
+                            </button>
+
+                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
+                                <ClipboardIcon className="ml-4 h-5 w-5" />
+                                Copy bullets
+                            </button>
+
+                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
+                                <TrashIcon className="ml-4 h-5 w-5" />
+                                Delete section
+                            </button>
+
+                            <button className="flex items-center gap-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">
+                                <ArrowDownTrayIcon className="ml-4 h-5 w-5" />
+                                Save as version
+                            </button>
                         </div>
+
                     </div>    
                     
 
