@@ -16,7 +16,7 @@ export default function Resume() {
     const [complexity, setComplexity] = useState(5);
     const [stats, setStats] = useState(5);
     const [refBullets, setRefBullets] = useState("");
-    const [versionName, setVersionName] = useState("Edit version name")
+    const [versionName, setVersionName] = useState("")
 
     return (
         <div className="bg-neutral-900 min-h-screen flex font-sans">

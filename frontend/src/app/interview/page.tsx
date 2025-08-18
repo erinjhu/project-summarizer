@@ -10,13 +10,16 @@ export default function Resume() {
     const [numBullets, setNumBullets] = useState(3); ``
     const [minWords, setMinWords] = useState(13);
     const [maxWords, setMaxWords] = useState(15);   
-    const [keywordInput, setKeywordInput] = useState("");
+    const [jobInput, setJobInput] = useState("");
     const [keywords, setKeywords] = useState<string[]>([]);
+    const [keywordInput, setKeywordInput] = useState("");
+    const [company, setCompany] = useState("")
     const router = useRouter();
     const [complexity, setComplexity] = useState(5);
     const [stats, setStats] = useState(5);
-    const [refBullets, setRefBullets] = useState("");
+    const [refQuestions, setrefQuestions] = useState("");
     const [versionName, setVersionName] = useState("Edit version name")
+    const [interviewer, setInterviewer] = useState("")
 
     return (
         <div className="bg-neutral-900 min-h-screen flex font-sans">
@@ -78,14 +81,8 @@ export default function Resume() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={keywordInput}
-                                    onChange={e => setKeywordInput(e.target.value)}
-                                    onKeyDown={e => {
-                                        if (e.key === "Enter" && keywordInput.trim()) {
-                                            setKeywords([...keywords, keywordInput.trim()]);
-                                            setKeywordInput("");
-                                        }
-                                    }}
+                                    value={jobInput}
+                                    onChange={e => setJobInput(e.target.value)}
                                     placeholder="Job description or url"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
@@ -96,14 +93,9 @@ export default function Resume() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={keywordInput}
-                                    onChange={e => setKeywordInput(e.target.value)}
-                                    onKeyDown={e => {
-                                        if (e.key === "Enter" && keywordInput.trim()) {
-                                            setKeywords([...keywords, keywordInput.trim()]);
-                                            setKeywordInput("");
-                                        }
-                                    }}
+                                    value={company}
+                                    onChange={e => setCompany(e.target.value)}
+    
                                     placeholder="Company website or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
@@ -115,45 +107,24 @@ export default function Resume() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={keywordInput}
-                                    onChange={e => setKeywordInput(e.target.value)}
-                                    onKeyDown={e => {
-                                        if (e.key === "Enter" && keywordInput.trim()) {
-                                            setKeywords([...keywords, keywordInput.trim()]);
-                                            setKeywordInput("");
-                                        }
-                                    }}
+                                    value={interviewer}
+                                    onChange={e => setInterviewer(e.target.value)}
+                                
                                     placeholder="Your interviewer's LinkedIn or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
                                
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-neutral-500">Number of bullets</span>
-                                    <span className="text-white">{numBullets}</span>
-                                </div>
-                                <input
-                                    type="range"
-                                    min={1}
-                                    max={10}
-                                    value={numBullets}
-                                    onChange={e => setNumBullets(Number(e.target.value))}
-                                    className="w-full accent-neutral-500"
-                                />
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-neutral-500">Number of words</span>
-                                    <span className="text-white">{minWords} - {maxWords}</span>
-                                </div>
-                                <div className="text-neutral-500">figure out how to do dual slider</div>
+                               
                             </div>
                         </div>
 
                         {/* Content */}
                         <div className="mt-4 font-sans">
-                            <h2 className="text-white mb-2">Content</h2>
+                            <h2 className="text-white mb-2">Your project</h2>
                             <textarea
-                                value={refBullets}
-                                onChange={e => setRefBullets(e.target.value)}
-                                placeholder="Paste in reference resume bullets"
+                                value={refQuestions}
+                                onChange={e => setrefQuestions(e.target.value)}     
+                                placeholder="Paste in example questions"
                                 className="w-full h-17 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
                             />
                             <input
@@ -166,7 +137,7 @@ export default function Resume() {
                                         setKeywordInput("");
                                     }
                                 }}
-                                placeholder="Type in keywords then press Enter"
+                                placeholder="Type in keywords/phrases then press Enter"
                                 className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                             />
                             <div className="flex flex-wrap gap-1 mt-1 mb-4">
@@ -201,7 +172,7 @@ export default function Resume() {
                                 className="w-full accent-neutral-500"
                             />
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-neutral-500">Add stats, numbers, and %'s</span>
+                                <span className="text-neutral-500">Level of detail</span>
                                 <span className="text-white">
                                     {stats <= 3
                                         ? "Less"
@@ -221,7 +192,7 @@ export default function Resume() {
                         </div>
 
                         <textarea
-                            placeholder="Custom adjustments (e.g. put more info on how I impacted users and make it more relevant to software)"
+                            placeholder="Custom adjustments (e.g. make the questions harder and include one about using Docker)"
                             className="w-full h-25 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
                         />
 
@@ -237,7 +208,7 @@ export default function Resume() {
                                     setKeywords([]);
                                     setComplexity(5);
                                     setStats(5);
-                                    setRefBullets("");
+                                    setrefQuestions("");
                                 }}
                             >
                                 Reset to defaults
@@ -260,9 +231,9 @@ export default function Resume() {
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-5xl text-left">Custom questions and notes</h1>
                     <button
-                        className="px-4 py-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-940"
+                        className="px-4 py-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900"
                         onClick={() => {
-                            router.push("/");
+                            router.push("/");   
                         }}
                     >
                         ← Edit repo link or job description
