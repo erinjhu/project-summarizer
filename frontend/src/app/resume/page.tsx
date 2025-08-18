@@ -7,7 +7,7 @@ import { Stats } from "fs";
 export default function Resume() {
     const [collapsed, setCollapsed] = useState(false);
     const [selectedTab, setSelectedTab] = useState("Resume");
-    const [numBullets, setNumBullets] = useState(3); // Default value is 3
+    const [numBullets, setNumBullets] = useState(3); 
     const [minWords, setMinWords] = useState(13);
     const [maxWords, setMaxWords] = useState(15);   
     const [keywordInput, setKeywordInput] = useState("");
@@ -21,7 +21,7 @@ export default function Resume() {
         <div className="bg-neutral-900 min-h-screen flex">
            
             <div
-                className={`sticky top-0 bg-neutral-800 h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
+                className={`flex-shrink-0 top-0 bg-neutral-800 min-h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
             >
                 <div className="flex items-center gap-2 ml-3">
                     <button 
@@ -30,7 +30,7 @@ export default function Resume() {
                         {collapsed ? " ☰" : " <<"}
                     </button>
                     <div className="flex-1">
-                        <div className="justify-center mt-1">
+                        <div className="justify-center mt-1 font-sans">
                             <div className="mt-3 ml-3 w-80 flex rounded-full border-2 overflow-hidden border-neutral-500">
                                 <button 
                                     className={`flex-1 px-6 py-0.5 focus:outline-none ${
@@ -196,9 +196,21 @@ export default function Resume() {
                     </div>
                 )}
             </div>
-            <div className="flex-1 overflow-y-auto mt-15">
-                <h1>Resume</h1>
-                <p>Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder Scrollable main content placeholder </p>
+            <div className="flex-1 overflow-y-auto mt-15 m-17 font-sans">
+                <div className="flex items-center justify-between mb-6">
+                    <h1 className="text-4xl text-left">Custom resume bullets</h1>
+                    <button
+                        className="px-4 py-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-940"
+                        onClick={() => {
+                            // Edit repo link logic here
+                            router.push("/");
+                        }}
+                    >
+                        Edit repo link or job description
+                    </button>
+                </div>
+                <p>Scrollable main content placeholder ...</p>
+                {/* ...rest of your main content... */}
             </div>
         </div>
     );
