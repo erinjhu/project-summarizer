@@ -69,8 +69,64 @@ export default function Resume() {
                     <div className="px-3">
                         {/* Structure */}
                         <div className="font-sans mt-3">
-                            <h2 className="text-white mb-2">Structure</h2>
+                            <h2 className="text-white mb-2">Preparing for the role</h2>
                             <div>
+                                <label className="text-neutral-500">
+                                    <input
+                                    type="checkbox"
+                                    /> Notes about the role
+                                </label>
+                                <input
+                                    type="text"
+                                    value={keywordInput}
+                                    onChange={e => setKeywordInput(e.target.value)}
+                                    onKeyDown={e => {
+                                        if (e.key === "Enter" && keywordInput.trim()) {
+                                            setKeywords([...keywords, keywordInput.trim()]);
+                                            setKeywordInput("");
+                                        }
+                                    }}
+                                    placeholder="Job description or url"
+                                    className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                                />
+                                <label className="text-neutral-500">
+                                    <input
+                                    type="checkbox"
+                                    /> Notes about the company
+                                </label>
+                                <input
+                                    type="text"
+                                    value={keywordInput}
+                                    onChange={e => setKeywordInput(e.target.value)}
+                                    onKeyDown={e => {
+                                        if (e.key === "Enter" && keywordInput.trim()) {
+                                            setKeywords([...keywords, keywordInput.trim()]);
+                                            setKeywordInput("");
+                                        }
+                                    }}
+                                    placeholder="Company website or other urls"
+                                    className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                                />
+                                <label className="text-neutral-500">
+                                    <input
+                                    
+                                    type="checkbox"
+                                    /> Questions to ask the interviewer
+                                </label>
+                                <input
+                                    type="text"
+                                    value={keywordInput}
+                                    onChange={e => setKeywordInput(e.target.value)}
+                                    onKeyDown={e => {
+                                        if (e.key === "Enter" && keywordInput.trim()) {
+                                            setKeywords([...keywords, keywordInput.trim()]);
+                                            setKeywordInput("");
+                                        }
+                                    }}
+                                    placeholder="Your interviewer's LinkedIn or other urls"
+                                    className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                                />
+                               
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-neutral-500">Number of bullets</span>
                                     <span className="text-white">{numBullets}</span>
