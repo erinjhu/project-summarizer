@@ -1,8 +1,6 @@
 "use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Stats } from "fs";
-
 
 export default function Resume() {
     const [collapsed, setCollapsed] = useState(false);
@@ -18,59 +16,58 @@ export default function Resume() {
     const [refBullets, setRefBullets] = useState("");
 
     return (
-        <div className="bg-neutral-900 min-h-screen flex">
+        <div className="bg-neutral-900 min-h-screen flex font-sans">
            
             <div
                 className={`flex-shrink-0 top-0 bg-neutral-800 min-h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
             >
-                <div className="flex items-center gap-2 ml-3">
+                {/* Collapse + Tabs Row */}
+                <div className="flex items-center justify-between p-3">
                     <button 
                         onClick={() => setCollapsed((c) => !c)}
+                        className="text-white"
                     >
-                        {collapsed ? " ☰" : " <<"}
+                        {collapsed ? "☰" : "<<"}
                     </button>
-                    <div className="flex-1">
-                        <div className="justify-center mt-1 font-sans">
-                            <div className="mt-3 ml-3 w-80 flex rounded-full border-2 overflow-hidden border-neutral-500">
-                                <button 
-                                    className={`flex-1 px-6 py-0.5 focus:outline-none ${
-                                        selectedTab === "Resume"
-                                        ? "bg-blue-900 text-white rounded-full border-2 mx-1 my-1 border-neutral-500"
+
+                    {!collapsed && (
+                        <div className="flex bg-neutral-700 rounded-full p-1 w-max border-neutral-500">
+                            <button
+                                className={`px-4 py-1 rounded-full ${
+                                    selectedTab === "Resume"
+                                        ? "bg-blue-900 text-white border-2 border-neutral-500"
                                         : "text-gray-300"
-                                    }`}
-                                    onClick={
-                                        () => {
-                                            setSelectedTab("Resume")
-                                            router.push("/resume")
-                                        }
-                                    }
-                                >
-                                    Resume
-                                </button>
-                                <button
-                                className={`flex-1 px-6 py-0.5 focus:outline-none ${
-                                    selectedTab === "Interview"
-                                    ? "bg-blue-900 text-white rounded-full border-2 mx-1 my-1 border-neutral-500"
-                                    : "text-gray-300"
                                 }`}
                                 onClick={() => {
-                                    setSelectedTab("Interview")
-                                    router.push("/interview")
-                                    }}
-                                >
+                                    setSelectedTab("Resume");
+                                    router.push("/resume");
+                                }}
+                            >
+                                Resume
+                            </button>
+                            <button
+                                className={`px-4 py-1 rounded-full ${
+                                    selectedTab === "Interview"
+                                        ? "bg-blue-900 text-white border-2 border-neutral-500"
+                                        : "text-gray-300"
+                                }`}
+                                onClick={() => {
+                                    setSelectedTab("Interview");
+                                    router.push("/interview");
+                                }}
+                            >
                                 Interview
-                                </button>
-                            </div>
+                            </button>
                         </div>
-                    </div>
+                    )}
                 </div>
+
                 {!collapsed && (
-                    <div className="p-6">
-                        
+                    <div className="px-3">
                         {/* Structure */}
-                        <div className=" font-sans">
-                            <h2 className="text-white">Structure</h2>
-                            <div className="">
+                        <div className="font-sans mt-3">
+                            <h2 className="text-white mb-2">Structure</h2>
+                            <div>
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-neutral-500">Number of bullets</span>
                                     <span className="text-white">{numBullets}</span>
@@ -90,9 +87,10 @@ export default function Resume() {
                                 <div className="text-neutral-500">figure out how to do dual slider</div>
                             </div>
                         </div>
+
                         {/* Content */}
-                        <div className="mt-1 font-sans">
-                            <h2 className="text-white">Content</h2>
+                        <div className="mt-4 font-sans">
+                            <h2 className="text-white mb-2">Content</h2>
                             <textarea
                                 value={refBullets}
                                 onChange={e => setRefBullets(e.target.value)}
@@ -105,7 +103,6 @@ export default function Resume() {
                                 onChange={e => setKeywordInput(e.target.value)}
                                 onKeyDown={e => {
                                     if (e.key === "Enter" && keywordInput.trim()) {
-                                        console.log(keywordInput.trim())
                                         setKeywords([...keywords, keywordInput.trim()]);
                                         setKeywordInput("");
                                     }
@@ -163,10 +160,12 @@ export default function Resume() {
                                 className="w-full accent-neutral-500"
                             />
                         </div>
+
                         <textarea
-                                placeholder="Custom adjustments (e.g. put more info on how I impacted users and make it more relevant to software"
-                                className="w-full h-25 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
+                            placeholder="Custom adjustments (e.g. put more info on how I impacted users and make it more relevant to software)"
+                            className="w-full h-25 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
                         />
+
                         <div className="mt-1 flex flex-col gap-1">
                             <button
                                 className="w-full py-0.3 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
@@ -192,25 +191,24 @@ export default function Resume() {
                             >
                                 Generate
                             </button>
-                    </div>
+                        </div>
                     </div>
                 )}
             </div>
+
             <div className="flex-1 overflow-y-auto mt-15 m-17 font-sans">
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-4xl text-left">Custom resume bullets</h1>
                     <button
                         className="px-4 py-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-940"
                         onClick={() => {
-                            // Edit repo link logic here
                             router.push("/");
                         }}
                     >
-                        Edit repo link or job description
+                        ← Edit repo link or job description
                     </button>
                 </div>
                 <p>Scrollable main content placeholder ...</p>
-                {/* ...rest of your main content... */}
             </div>
         </div>
     );
