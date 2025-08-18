@@ -25,7 +25,7 @@ export default function Resume() {
                 className={`p-6 flex-shrink-0 top-0 bg-neutral-800 min-h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
             >
                 {/* Collapse + Tabs Row */}
-                <div className="flex items-center justify-between p-3">
+                <div className="flex items-center justify-between">
                     <button 
                         onClick={() => setCollapsed((c) => !c)}
                         className="text-white"
