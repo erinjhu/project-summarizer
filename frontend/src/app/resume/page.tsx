@@ -14,12 +14,13 @@ export default function Resume() {
     const [complexity, setComplexity] = useState(5);
     const [stats, setStats] = useState(5);
     const [refBullets, setRefBullets] = useState("");
+    const [versionName, setVersionName] = useState("Edit version name")
 
     return (
         <div className="bg-neutral-900 min-h-screen flex font-sans">
            
             <div
-                className={`flex-shrink-0 top-0 bg-neutral-800 min-h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
+                className={`p-6 flex-shrink-0 top-0 bg-neutral-800 min-h-screen shadow-lg transition-all duration-300 ${collapsed ? "w-10" : "w-1/4"}`}
             >
                 {/* Collapse + Tabs Row */}
                 <div className="flex items-center justify-between p-3">
@@ -184,7 +185,7 @@ export default function Resume() {
                                 Reset to defaults
                             </button>
                             <button
-                                className="w-full py-0.3 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-940"
+                                className="w-full py-0.3 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900"
                                 onClick={() => {
                                     // Generate logic here
                                 }}
@@ -197,8 +198,9 @@ export default function Resume() {
             </div>
 
             <div className="flex-1 overflow-y-auto mt-15 m-17 font-sans">
+                {/* Heading and Button */}
                 <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-4xl text-left">Custom resume bullets</h1>
+                    <h1 className="text-5xl text-left">Custom resume bullets</h1>
                     <button
                         className="px-4 py-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-940"
                         onClick={() => {
@@ -208,8 +210,40 @@ export default function Resume() {
                         ← Edit repo link or job description
                     </button>
                 </div>
+                {/* Generated bullets */}
+                <div className="neutral-800 rounded-lg border-2 border-neutral-500 p-6">
+                    <input
+                        type="text"
+                        value={versionName}
+                        onChange={e => setVersionName(e.target.value)}
+                        onKeyDown={e => {
+                        }}
+                        placeholder="Edit version name"
+                        className="w-full h-8 bg-neutral-800 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                    />
+                    <div className="flex gap-4">
+                        <div className="flex-1 bg-neutral-900 p-4 rounded-lg">
+                            <h2 className="text-3xl text-left mb-4">Name goes here</h2>
+                            <ul className="list-disc list-inside text-gray-300">
+                                <li>Replace this with generated resume bullet text</li>
+                                <li>Bullet point 2</li>
+                                <li>Bullet point 3</li>
+                            </ul>
+                        </div>
+                        <div className="w-1/5 p-4 rounded-lg flex flex-col gap-2">
+                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
+                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
+                            <button className="rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">Button 1</button>
+                            <button className="rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">Button 1</button>
+                        </div>
+                    </div>    
+                    
+
+                </div>
                 <p>Scrollable main content placeholder ...</p>
             </div>
         </div>
     );
 }
+
+
