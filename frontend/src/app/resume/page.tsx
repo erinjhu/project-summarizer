@@ -5,6 +5,8 @@ import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon } from "@heroic
 
 
 export default function Resume() {
+    const [repoUrl, setRepoUrl] = useState("")
+    const [jobDescription, setJobDescription] = useState("")
     const [collapsed, setCollapsed] = useState(false);
     const [selectedTab, setSelectedTab] = useState("Resume");
     const [numBullets, setNumBullets] = useState(3); 
@@ -67,6 +69,22 @@ export default function Resume() {
 
                 {!collapsed && (
                     <div className="px-3">
+                        <div className="font-sans mt-3">
+                            <h2 className="text-white mb-2">Info</h2>
+                            <input
+                                type="text"
+                                value={repoUrl}
+                                onChange={e => setRepoUrl(e.target.value)}
+                                placeholder="Paste GitHub project repo url"
+                                className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                            />
+                            <textarea
+                                value={jobDescription}
+                                onChange={e => setJobDescription(e.target.value)}
+                                placeholder="Paste in reference resume bullets"
+                                className="w-full h-17 mt-3 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
+                            />
+                        </div>
                         {/* Structure */}
                         <div className="font-sans mt-3">
                             <h2 className="text-white mb-2">Structure</h2>
