@@ -22,8 +22,8 @@ def generate_proj_notes(project_text, job_description, keywords, complexity, cus
         custom=custom
     )
     print("generating proj notes")
-    summary_json = get_gemini(prompt)
-    return summary_json 
+    notes = get_gemini(prompt)
+    return notes 
 
 def generate_role_notes(job_description, keywords, complexity, custom):
     prompt = ROLE_NOTES_PROMPT.format(
@@ -32,8 +32,9 @@ def generate_role_notes(job_description, keywords, complexity, custom):
         complexity=complexity,
         custom=custom
     )
-    print(prompt)
-    return prompt
+    print("generating role notes")
+    notes = get_gemini(prompt)
+    return notes
 
 def generate_company_notes(company, custom):
     prompt = COMPANY_NOTES_PROMPT.format(
@@ -71,7 +72,7 @@ Keywords: {keywords}
 Complexity: {complexity}
 Custom Instructions: {custom}
 
-Generate notes about the role based on the job description and keywords. Highlight responsibilities, required skills, and how your experience matches the role.
+Summarize the given job description. Generate notes about the role based on the job description and keywords to help the user prepare for a job interview. These notes should be concise. The purpose is for key points that the user should be familiar with so that they are prepared for the job interview.
 """
 
 COMPANY_NOTES_PROMPT = """

@@ -21,6 +21,17 @@ export default function Resume() {
     const [refQuestions, setrefQuestions] = useState("");
     const [versionName, setVersionName] = useState("Edit version name")
     const [interviewer, setInterviewer] = useState("")
+    const cleanInput = (text: string) => text.replace(/[\r\n]+/g, ' ');
+
+    const isUrl = (str: string) => {
+        try {
+            new URL(str);
+            return true;
+        } catch {
+            return false;
+        }
+    };
+
 
     return (
         <div className="bg-neutral-900 min-h-screen flex font-sans">
