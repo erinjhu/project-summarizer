@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { cleanInput, generateResume } from "../utils";
 
 
 export default function Resume() {
@@ -19,6 +20,32 @@ export default function Resume() {
     const [stats, setStats] = useState(5);
     const [refBullets, setRefBullets] = useState("");
     const [versionName, setVersionName] = useState("")
+    const [custom, setCustom] = useState("")
+    const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+
+    const handleGenerate = async () => {
+        const payload = {
+        repo_url: repoUrl,
+        job_description: cleanInput(jobDescription),
+        num_bullets: numBullets,
+        min_words: minWords,
+        max_words: maxWords,
+        ref_bullets: cleanInput(refBullets),
+        keywords,
+        complexity,
+        stats,
+        custom,
+        version_name: versionName,
+        };
+        const data = await generateResume(payload);
+        setResumeData(data);
+        console.log("called handleGenerate")
+    };
+
+    type ResumeData = {
+        section_title: string;
+        resume_bullets: string[];
+    };
 
     return (
         <div className="bg-neutral-900 min-h-screen flex font-sans">
@@ -185,6 +212,8 @@ export default function Resume() {
                         <textarea
                             placeholder="Custom adjustments (e.g. put more info on how I impacted users and make it more relevant to software)"
                             className="w-full h-25 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
+                            value={custom}
+                            onChange={e => setCustom(e.target.value)}
                         />
 
                         <div className="mt-1 flex flex-col gap-1">
@@ -206,9 +235,7 @@ export default function Resume() {
                             </button>
                             <button
                                 className="w-full py-0.3 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900"
-                                onClick={() => {
-                                    // Generate logic here
-                                }}
+                                onClick={handleGenerate}
                             >
                                 Generate
                             </button>
@@ -244,7 +271,9 @@ export default function Resume() {
                     <div className="flex gap-4 mt-4">
                         <div className="flex-1 bg-neutral-900 rounded-lg">
                             <div className="flex items-center gap-2 mb-4">
-                                <h2 className="text-3xl text-left">Name goes here</h2>
+                                <h2 className="text-3xl text-left">
+                                    {resumeData?.section_title || "Name goes here"}
+                                </h2>
                                 <button 
                                     className="p-1 hover:bg-neutral-700 rounded"
                                     onClick={() => {}}
@@ -254,9 +283,18 @@ export default function Resume() {
                             </div>
 
                             <ul className="list-disc list-inside text-gray-300">
-                                <li>Replace this with generated resume bullet text</li>
-                                <li>Bullet point 2</li>
-                                <li>Bullet point 3</li>
+                                {resumeData?.resume_bullets
+                                    ? resumeData.resume_bullets.map((bullet: string, idx: number) => (
+                                        <li key={idx}>{bullet}</li>
+                                    ))
+                                    : (
+                                        <>
+                                            <li>Replace this with generated resume bullet text</li>
+                                            <li>Bullet point 2</li>
+                                            <li>Bullet point 3</li>
+                                        </>
+                                    )
+                                }
                             </ul>
                         </div>
                         <div className="w-1/5 rounded-lg flex flex-col gap-2">
@@ -285,7 +323,6 @@ export default function Resume() {
                     
 
                 </div>
-                <p>Scrollable main content placeholder ...</p>
             </div>
         </div>
     );
