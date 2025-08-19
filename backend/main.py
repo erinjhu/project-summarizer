@@ -1,10 +1,16 @@
 from fastapi import FastAPI, Request, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from gemini_utils import get_gemini_summary, GEMINI_API_KEY
+from typing import Optional
 from pydantic import BaseModel
 from repo_utils import clone_repo, read_project_files, cleanup_repo
 import re
 import json
+from interview_utils import (
+    generate_role_notes,
+    generate_company_notes,
+    generate_interviewer_questions,
+)
 
 app = FastAPI()
 
@@ -15,6 +21,19 @@ class ResumeRequest(BaseModel):
     min_words: int = 13
     max_words: int = 15
     ref_bullets: str = ""
+    keywords: list[str] = []
+    complexity: int = 5
+    stats: int = 5
+    custom: str = ""
+
+class InterviewPrepRequest(BaseModel):
+    create_role_notes: bool = False
+    create_company_notes: bool = False
+    create_interviewer_questions: bool = False
+    job_description: str = ""
+    company_info: str = ""
+    interviewer_info: str = ""
+    ref_questions: str = ""
     keywords: list[str] = []
     complexity: int = 5
     stats: int = 5
@@ -50,6 +69,8 @@ Output it as a plain text JSON with no backticks. {{
 }}
 """
 
+
+
 # Allow requests from frontend
 app.add_middleware(
     CORSMiddleware,
@@ -64,7 +85,7 @@ def read_root():
     return {"message": "Backend is working!"}
 
 @app.post("/create-resume")
-async def summarize_url_2(data: ResumeRequest):
+async def create_resume(data: ResumeRequest):
     # data from frontend
     repo_url = data.repo_url
     job_description = clean_input(data.job_description)
@@ -105,5 +126,20 @@ async def summarize_url_2(data: ResumeRequest):
         summary_json = {"raw": summary}
     return summary_json
 
-
-
+@app.post("/create-interview-prep")
+async def create_interview_prep(data: InterviewPrepRequest):
+    result = {"hi" : "test result"}
+    cleaned_job_description = clean_input(data.job_description) if data.job_description else None
+    if data.create_role_notes:
+        result["role_notes"] = generate_role_notes(
+            cleaned_job_description, data.keywords, data.complexity, data.custom
+        )
+    if data.create_company_notes:
+        result["company_notes"] = generate_company_notes(
+            data.company_info, data.custom
+        )
+    if data.create_interviewer_questions:
+        result["interviewer_questions"] = generate_interviewer_questions(
+            data.interviewer_info, data.ref_questions, data.keywords, data.complexity, data.custom
+        )
+    return result
