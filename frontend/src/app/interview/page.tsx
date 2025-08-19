@@ -11,6 +11,7 @@ export default function Resume() {
     const [minWords, setMinWords] = useState(13);
     const [maxWords, setMaxWords] = useState(15);   
     const [jobInput, setJobInput] = useState("");
+    const [projInput, setProjInput] = useState("");
     const [keywords, setKeywords] = useState<string[]>([]);
     const [keywordInput, setKeywordInput] = useState("");
     const [company, setCompany] = useState("")
@@ -73,8 +74,20 @@ export default function Resume() {
                     
                         {/* Structure */}
                         <div className="font-sans mt-3">
-                            <h2 className="text-white mb-2">Preparing for the role</h2>
+                            <h2 className="text-white mb-2">Notes and questions to generate</h2>
                             <div>
+                                <label className="text-neutral-500">
+                                    <input
+                                    type="checkbox"
+                                    /> Notes about your project
+                                </label>
+                                <input
+                                    type="text"
+                                    value={projInput}
+                                    onChange={e => setProjInput(e.target.value)}
+                                    placeholder="GitHub repo url"
+                                    className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                                />
                                 <label className="text-neutral-500">
                                     <input
                                     type="checkbox"

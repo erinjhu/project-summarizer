@@ -7,6 +7,7 @@ from repo_utils import clone_repo, read_project_files, cleanup_repo
 import re
 import json
 from interview_utils import (
+    generate_proj_notes,
     generate_role_notes,
     generate_company_notes,
     generate_interviewer_questions,
@@ -27,6 +28,8 @@ class ResumeRequest(BaseModel):
     custom: str = ""
 
 class InterviewPrepRequest(BaseModel):
+    repo_url: str
+    create_proj_notes: bool = False
     create_role_notes: bool = False
     create_company_notes: bool = False
     create_interviewer_questions: bool = False
@@ -130,6 +133,15 @@ async def create_resume(data: ResumeRequest):
 async def create_interview_prep(data: InterviewPrepRequest):
     result = {"hi" : "test result"}
     cleaned_job_description = clean_input(data.job_description) if data.job_description else None
+    if data.create_proj_notes:
+        repo_path = clone_repo(data.repo_url)
+        try:
+            project_text = read_project_files(repo_path)
+        finally:
+            cleanup_repo(repo_path)
+        result["proj_notes"] = generate_proj_notes(
+            project_text, cleaned_job_description, data.keywords, data.complexity, data.custom
+        )
     if data.create_role_notes:
         result["role_notes"] = generate_role_notes(
             cleaned_job_description, data.keywords, data.complexity, data.custom
