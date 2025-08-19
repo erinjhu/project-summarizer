@@ -41,8 +41,9 @@ def generate_company_notes(company, custom):
         company=company,
         custom=custom
     )
-    print(prompt)
-    return prompt
+    print("generating company notes")
+    notes = get_gemini(prompt)
+    return notes
 
 def generate_interviewer_questions(interviewer, ref_questions, keywords, complexity, custom):
     prompt = INTERVIEWER_QUESTIONS_PROMPT.format(
@@ -52,8 +53,9 @@ def generate_interviewer_questions(interviewer, ref_questions, keywords, complex
         complexity=complexity,
         custom=custom
     )
-    print(prompt)
-    return prompt
+    print("generating interviewer questions")
+    notes = get_gemini(prompt)
+    return notes
 
 PROJ_NOTES_PROMPT = """
 Project Notes: {project_text}
@@ -72,7 +74,7 @@ Keywords: {keywords}
 Complexity: {complexity}
 Custom Instructions: {custom}
 
-Summarize the given job description. Generate notes about the role based on the job description and keywords to help the user prepare for a job interview. These notes should be concise. The purpose is for key points that the user should be familiar with so that they are prepared for the job interview.
+Summarize the given job description from the provided text or url. Generate notes about the role based on the job description and keywords to help the user prepare for a job interview. These notes should be concise; only include the most important info and cut out any fluff. The purpose is for key points that the user should be familiar with so that they are prepared for the job interview. Focus on the job responsibilities.
 """
 
 COMPANY_NOTES_PROMPT = """
@@ -80,7 +82,7 @@ Company Notes:
 Company Info: {company}
 Custom Instructions: {custom}
 
-Summarize important information about the company for interview prep. Include mission, culture, recent news, and how your background aligns with the company.
+Summarize important information about the company for interview prep. Include mission, culture, and recent news.
 """
 
 INTERVIEWER_QUESTIONS_PROMPT = """
@@ -91,5 +93,5 @@ Keywords: {keywords}
 Complexity: {complexity}
 Custom Instructions: {custom}
 
-Generate thoughtful questions to ask the interviewer. Use the provided info and keywords, and tailor questions to the role and company. Using the given info, generate conversations that show curiosity about the interviewer and build a genuine connection with them.
+Generate thoughtful questions to ask the interviewer. Use the provided info and keywords, and tailor questions to the role and company. Using the given info, generate conversations that show curiosity about the interviewer and build a genuine connection with them. if you are unable to get info from the linkedin url explain why.
 """
