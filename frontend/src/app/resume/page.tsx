@@ -24,23 +24,31 @@ export default function Resume() {
     const [resumeData, setResumeData] = useState<ResumeData | null>(null);
     const [copiedTitle, setCopiedTitle] = useState(false);
     const [copiedBullets, setCopiedBullets] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleGenerate = async () => {
-        const payload = {
-        repo_url: repoUrl,
-        job_description: cleanInput(jobDescription),
-        num_bullets: numBullets,
-        min_words: minWords,
-        max_words: maxWords,
-        ref_bullets: cleanInput(refBullets),
-        keywords,
-        complexity,
-        stats,
-        custom,
-        version_name: versionName,
-        };
-        const data = await generateResume(payload);
-        setResumeData(data);
+        setLoading(true)
+        try{
+            const payload = {
+                repo_url: repoUrl,
+                job_description: cleanInput(jobDescription),
+                num_bullets: numBullets,
+                min_words: minWords,
+                max_words: maxWords,
+                ref_bullets: cleanInput(refBullets),
+                keywords,
+                complexity,
+                stats,
+                custom,
+                version_name: versionName,
+            };
+            const data = await generateResume(payload);
+            setResumeData(data);
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
+        }        
         console.log("called handleGenerate")
     };
 
@@ -279,93 +287,99 @@ export default function Resume() {
                 </div>
                 {/* Generated bullets */}
                 <div className="neutral-800 rounded-lg border-2 border-neutral-500 p-6">
-                    <input
-                        type="text"
-                        value={versionName}
-                        onChange={e => setVersionName(e.target.value)}
-                        onKeyDown={e => {
-                        }}
-                        placeholder="Edit version name"
-                        className="w-full h-8 bg-neutral-800 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
-                    />
-                    <div className="flex gap-4 mt-4">
-                        <div className="flex-1 bg-neutral-900 rounded-lg">
-                            <div className="flex items-center gap-2 mb-4">
-                                <h2 className="text-3xl text-left">
-                                    {resumeData?.section_title || "Name goes here"}
-                                </h2>
-                                <button 
-                                    className="p-1 hover:bg-neutral-700 rounded"
-                                    onClick={() => {}}
-                                >
-                                    <PencilIcon className="h-6 w-6 text-gray-300" />
-                                </button>
-                            </div>
+                    {loading ? (
+                        <div className="text-white text-xl">Loading...</div>
+                    ) : (
+                        <>
+                            <input
+                                type="text"
+                                value={versionName}
+                                onChange={e => setVersionName(e.target.value)}
+                                onKeyDown={e => {
+                                }}
+                                placeholder="Edit version name"
+                                className="w-full h-8 bg-neutral-800 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                            />
+                            <div className="flex gap-4 mt-4">
+                                <div className="flex-1 bg-neutral-900 rounded-lg">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <h2 className="text-3xl text-left">
+                                            {resumeData?.section_title || "Name goes here"}
+                                        </h2>
+                                        <button 
+                                            className="p-1 hover:bg-neutral-700 rounded"
+                                            onClick={() => {}}
+                                        >
+                                            <PencilIcon className="h-6 w-6 text-gray-300" />
+                                        </button>
+                                    </div>
 
-                            <ul className="list-disc list-inside text-gray-300">
-                                {resumeData?.resume_bullets
-                                    ? resumeData.resume_bullets.map((bullet: string, idx: number) => (
-                                        <li key={idx}>{bullet}</li>
-                                    ))
-                                    : (
-                                        <>
-                                            <li>Replace this with generated resume bullet text</li>
-                                            <li>Bullet point 2</li>
-                                            <li>Bullet point 3</li>
-                                        </>
-                                    )
-                                }
-                            </ul>
-                        </div>
-                        <div className="w-1/5 rounded-lg flex flex-col gap-2">
-                            <button 
-                                className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
-                                onClick={handleCopyTitle}
-                            >
-                                {copiedTitle ? (
-                                    <>
-                                    <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
-                                    Copied!
-                                    </>
-                                ) : (
-                                    <>
-                                    <ClipboardIcon className="ml-4 h-5 w-5" />
-                                    Copy title
-                                    </>
-                                )}
-                            </button>
+                                    <ul className="list-disc list-inside text-gray-300">
+                                        
+                                        {resumeData?.resume_bullets
+                                            ? resumeData.resume_bullets.map((bullet: string, idx: number) => (
+                                                <li key={idx}>{bullet}</li>
+                                            ))
+                                            : (
+                                                <>
+                                                    <li>Replace this with generated resume bullet text</li>
+                                                    <li>Bullet point 2</li>
+                                                    <li>Bullet point 3</li>
+                                                </>
+                                            )
+                                        }
+                                    </ul>
+                                </div>
+                                <div className="w-1/5 rounded-lg flex flex-col gap-2">
+                                    <button 
+                                        className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
+                                        onClick={handleCopyTitle}
+                                    >
+                                        {copiedTitle ? (
+                                            <>
+                                            <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
+                                            Copied!
+                                            </>
+                                        ) : (
+                                            <>
+                                            <ClipboardIcon className="ml-4 h-5 w-5" />
+                                            Copy title
+                                            </>
+                                        )}
+                                    </button>
 
-                            <button 
-                                className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
-                                onClick={handleCopyBullets}
-                            >
-                                {copiedBullets ? (
-                                    <>
-                                    <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
-                                    Copied!
-                                    </>
-                                ) : (
-                                    <>
-                                    <ClipboardIcon className="ml-4 h-5 w-5" />
-                                    Copy bullets
-                                    </>
-                                )}
-                            </button>
+                                    <button 
+                                        className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
+                                        onClick={handleCopyBullets}
+                                    >
+                                        {copiedBullets ? (
+                                            <>
+                                            <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
+                                            Copied!
+                                            </>
+                                        ) : (
+                                            <>
+                                            <ClipboardIcon className="ml-4 h-5 w-5" />
+                                            Copy bullets
+                                            </>
+                                        )}
+                                    </button>
 
-                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
-                                <TrashIcon className="ml-4 h-5 w-5" />
-                                Delete section
-                            </button>
- 
-                            <button className="flex items-center gap-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">
-                                <ArrowDownTrayIcon className="ml-4 h-5 w-5" />
-                                Save as version
-                            </button>
-                        </div>
+                                    <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
+                                        <TrashIcon className="ml-4 h-5 w-5" />
+                                        Delete section
+                                    </button>
+        
+                                    <button className="flex items-center gap-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">
+                                        <ArrowDownTrayIcon className="ml-4 h-5 w-5" />
+                                        Save as version
+                                    </button>
+                                </div>
 
-                    </div>    
-                    
-
+                            </div>    
+                        </>
+                    )
+                }
                 </div>
             </div>
         </div>
