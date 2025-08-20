@@ -58,7 +58,7 @@ Keywords to include in the resume section: {keywords},
 Complexity and number of statistics/numbers/percentages to include on a scale of 1 (less) to 10 (more): {complexity} and {stats},
 Custom requets: {custom}
 
-Generate resume bullets that follow the criteria. They should be tailored to the github repo project text and the job description if provided. They should highlight the impact of the project and the technical skills of the user, along with giving enough context to show the project is relevant and help the recruiter understand its purpose. Do not make up false information; use the information parsed from the github repo. Describe the user's project to prepare them for applying to the job in the description if pasted. 
+Generate resume bullets that follow the criteria. They should be tailored to the github repo project text and the job description if provided. They should highlight the impact of the project and the technical skills of the user, along with giving enough context to show the project is relevant and help the recruiter understand its purpose. Do not make up false information; use the information parsed from the github repo. Describe the user's project to prepare them for applying to the job in the description if pasted. Be sure to include as many industry-related keywords as possible to help the candidate pass ATS screening. 
 
 The section title should be the title of the project. Or, make a better title that would make the user appear as a good candidate for the job in the provided job description.
 

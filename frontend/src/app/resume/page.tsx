@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon, CheckIcon } from "@heroicons/react/24/solid";
 import { cleanInput, generateResume } from "../utils";
 
 
@@ -22,6 +22,8 @@ export default function Resume() {
     const [versionName, setVersionName] = useState("")
     const [custom, setCustom] = useState("")
     const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+    const [copiedTitle, setCopiedTitle] = useState(false);
+    const [copiedBullets, setCopiedBullets] = useState(false);
 
     const handleGenerate = async () => {
         const payload = {
@@ -40,6 +42,24 @@ export default function Resume() {
         const data = await generateResume(payload);
         setResumeData(data);
         console.log("called handleGenerate")
+    };
+
+    const handleCopyTitle = () => {
+        if (resumeData?.section_title) {
+            navigator.clipboard.writeText(resumeData.section_title);
+            setCopiedTitle(true)
+            console.log("copied title")
+            setTimeout(() => setCopiedTitle(false), 1500)
+        }
+    };
+
+    const handleCopyBullets = () => {
+        if (resumeData?.resume_bullets) {
+            navigator.clipboard.writeText(resumeData.resume_bullets.join('\n'));
+            setCopiedBullets(true)
+            console.log("copied bullets")
+            setTimeout(() => setCopiedBullets(false), 1500)
+        }
     };
 
     type ResumeData = {
@@ -108,7 +128,7 @@ export default function Resume() {
                             <textarea
                                 value={jobDescription}
                                 onChange={e => setJobDescription(e.target.value)}
-                                placeholder="Paste in reference resume bullets"
+                                placeholder="Paste in job description"
                                 className="w-full h-17 mt-3 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
                             />
                         </div>
@@ -298,21 +318,45 @@ export default function Resume() {
                             </ul>
                         </div>
                         <div className="w-1/5 rounded-lg flex flex-col gap-2">
-                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
-                                <ClipboardIcon className="ml-4 h-5 w-5" />
-                                Copy title
+                            <button 
+                                className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
+                                onClick={handleCopyTitle}
+                            >
+                                {copiedTitle ? (
+                                    <>
+                                    <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
+                                    Copied!
+                                    </>
+                                ) : (
+                                    <>
+                                    <ClipboardIcon className="ml-4 h-5 w-5" />
+                                    Copy title
+                                    </>
+                                )}
                             </button>
 
-                            <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
-                                <ClipboardIcon className="ml-4 h-5 w-5" />
-                                Copy bullets
+                            <button 
+                                className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500"
+                                onClick={handleCopyBullets}
+                            >
+                                {copiedBullets ? (
+                                    <>
+                                    <CheckIcon className="ml-4 h-5 w-5 text-green-400" />
+                                    Copied!
+                                    </>
+                                ) : (
+                                    <>
+                                    <ClipboardIcon className="ml-4 h-5 w-5" />
+                                    Copy bullets
+                                    </>
+                                )}
                             </button>
 
                             <button className="flex items-center gap-2 rounded-lg border-2 border-neutral-500 text-gray-300 font-sans hover:bg-neutral-500">
                                 <TrashIcon className="ml-4 h-5 w-5" />
                                 Delete section
                             </button>
-
+ 
                             <button className="flex items-center gap-2 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900">
                                 <ArrowDownTrayIcon className="ml-4 h-5 w-5" />
                                 Save as version
