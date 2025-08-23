@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon, StarIcon } from "@heroicons/react/24/solid";
 
@@ -10,8 +10,22 @@ export default function Resume() {
     const [numBullets, setNumBullets] = useState(3); ``
     const [minWords, setMinWords] = useState(13);
     const [maxWords, setMaxWords] = useState(15);   
-    const [jobInput, setJobInput] = useState("");
-    const [projInput, setProjInput] = useState("");
+    const [jobInput, setJobInput] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('jobDescription') || "";
+            console.log('Loaded jobDescription from localStorage:', saved);
+            return saved;
+        }
+        return ""
+    })
+    const [projInput, setProjInput] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('repoUrl') || "";
+            console.log('Loaded repoUrl from localStorage:', saved);
+            return saved;
+        }
+        return ""
+    })
     const [keywords, setKeywords] = useState<string[]>([]);
     const [keywordInput, setKeywordInput] = useState("");
     const [company, setCompany] = useState("")
@@ -22,6 +36,26 @@ export default function Resume() {
     const [versionName, setVersionName] = useState("Edit version name")
     const [interviewer, setInterviewer] = useState("")
     const cleanInput = (text: string) => text.replace(/[\r\n]+/g, ' ');
+
+    const handleJobInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setJobInput(value);
+        localStorage.setItem('jobDescription', value);
+        console.log('Saved jobDescription to localStorage:', value);
+    };
+
+    const handleProjInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setProjInput(value);
+        localStorage.setItem('repoUrl', value);
+        console.log('Saved repoUrl to localStorage:', value);
+    };
+
+    useEffect(() => {
+        console.log('Interview page mounted');
+        console.log('Current localStorage jobDescription:', localStorage.getItem('jobDescription'));
+        console.log('Current localStorage repoUrl:', localStorage.getItem('repoUrl'));
+    }, []);
 
     const isUrl = (str: string) => {
         try {
@@ -95,7 +129,7 @@ export default function Resume() {
                                 <input
                                     type="text"
                                     value={projInput}
-                                    onChange={e => setProjInput(e.target.value)}
+                                    onChange={handleProjInputChange}
                                     placeholder="GitHub repo url"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
@@ -107,7 +141,7 @@ export default function Resume() {
                                 <input
                                     type="text"
                                     value={jobInput}
-                                    onChange={e => setJobInput(e.target.value)}
+                                    onChange={handleJobInputChange}
                                     placeholder="Job description or url"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />

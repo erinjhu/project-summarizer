@@ -1,13 +1,27 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon, CheckIcon } from "@heroicons/react/24/solid";
 import { cleanInput, generateResume } from "../utils";
 
 
 export default function Resume() {
-    const [repoUrl, setRepoUrl] = useState("")
-    const [jobDescription, setJobDescription] = useState("")
+    const [repoUrl, setRepoUrl] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('repoUrl') || "";
+            console.log('Resume page - Loaded repoUrl from localStorage:', saved);
+            return saved;
+        }
+        return ""
+    })
+    const [jobDescription, setJobDescription] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('jobDescription') || "";
+            console.log('Resume page - Loaded jobDescription from localStorage:', saved);
+            return saved;
+        }
+        return ""
+    })
     const [collapsed, setCollapsed] = useState(false);
     const [selectedTab, setSelectedTab] = useState("Resume");
     const [numBullets, setNumBullets] = useState(3); 
@@ -25,6 +39,26 @@ export default function Resume() {
     const [copiedTitle, setCopiedTitle] = useState(false);
     const [copiedBullets, setCopiedBullets] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const handleRepoUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setRepoUrl(value);
+        localStorage.setItem('repoUrl', value);
+        console.log('Resume page - Saved repoUrl to localStorage:', value);
+    };
+
+    const handleJobDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setJobDescription(value);
+        localStorage.setItem('jobDescription', value);
+        console.log('Resume page - Saved jobDescription to localStorage:', value);
+    };
+
+    useEffect(() => {
+        console.log('Resume page mounted');
+        console.log('Current localStorage jobDescription:', localStorage.getItem('jobDescription'));
+        console.log('Current localStorage repoUrl:', localStorage.getItem('repoUrl'));
+    }, []);
 
     const handleGenerate = async () => {
         setLoading(true)
@@ -129,13 +163,13 @@ export default function Resume() {
                             <input
                                 type="text"
                                 value={repoUrl}
-                                onChange={e => setRepoUrl(e.target.value)}
+                                onChange={handleRepoUrlChange}
                                 placeholder="Paste GitHub project repo url"
                                 className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                             />
                             <textarea
                                 value={jobDescription}
-                                onChange={e => setJobDescription(e.target.value)}
+                                onChange={handleJobDescriptionChange}
                                 placeholder="Paste in job description"
                                 className="w-full h-17 mt-3 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
                             />
