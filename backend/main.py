@@ -13,6 +13,7 @@ from interview_utils import (
     generate_role_notes,
     generate_company_notes,
     generate_interviewer_questions,
+    generate_interview_practice,
 )
 
 # Set up logging
@@ -38,6 +39,7 @@ class InterviewPrepRequest(BaseModel):
     create_role_notes: bool = False
     create_company_notes: bool = False
     create_interviewer_questions: bool = False
+    create_interview_practice: bool = False
     job_description: str = ""
     company_info: str = ""
     interviewer_info: str = ""
@@ -45,6 +47,7 @@ class InterviewPrepRequest(BaseModel):
     keywords: list[str] = []
     complexity: int = 5
     stats: int = 5
+    detail: int = 5 
     custom: str = ""
 
 def clean_input(text: str) -> str:
@@ -228,6 +231,35 @@ async def create_interview_prep(data: InterviewPrepRequest):
                 logger.error(f"Error generating interviewer questions: {str(e)}")
                 result["interviewer_questions"] = {"error": "Failed to generate interviewer questions"}
         
+        # Handle interview practice questions generation
+        if data.create_interview_practice:
+            try: 
+                repo_path = clone_repo(data.repo_url)
+                try:
+                    project_text = read_project_files(repo_path)
+                    logger.info(f"Successfully read project files, length: {len(project_text) if project_text else 0}")
+                finally:
+                    cleanup_repo(repo_path)
+
+                logger.info("Calling generate_interview_practice...") 
+                result["practice_questions"] = generate_interview_practice(
+                    project_text,
+                    data.job_description,
+                    data.company_info,
+                    data.interviewer_info,
+                    data.ref_questions,
+                    data.keywords,
+                    data.complexity,
+                    data.detail,
+                    data.custom
+                )
+                
+            except Exception as e:
+                logger.error(f"Error generating interview practice: {str(e)}")
+                result["practice_questions"] = {"error": "Failed to generate interview practice"}
+
+
+
         return result
         
     except Exception as e:

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon, StarIcon } from "@heroicons/react/24/solid";
 
 
-export default function Resume() {
+export default function Interview() {
     const [collapsed, setCollapsed] = useState(false);
     const [selectedTab, setSelectedTab] = useState("Interview");
     const [numBullets, setNumBullets] = useState(3); ``
@@ -36,6 +36,14 @@ export default function Resume() {
     const [versionName, setVersionName] = useState("Edit version name")
     const [interviewer, setInterviewer] = useState("")
     const cleanInput = (text: string) => text.replace(/[\r\n]+/g, ' ');
+    const [custom, setCustom] = useState("");
+    const [createProjNotes, setCreateProjNotes] = useState(false);
+    const [createRoleNotes, setCreateRoleNotes] = useState(false);
+    const [createCompanyNotes, setCreateCompanyNotes] = useState(false);
+    const [createInterviewerQuestions, setCreateInterviewerQuestions] = useState(false);
+    const [createInterviewPractice, setCreateInterviewPractice] = useState(false);
+    const [interviewData, setInterviewData] = useState<any>(null);
+    
 
     const handleJobInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -56,6 +64,38 @@ export default function Resume() {
         console.log('Current localStorage jobDescription:', localStorage.getItem('jobDescription'));
         console.log('Current localStorage repoUrl:', localStorage.getItem('repoUrl'));
     }, []);
+
+    const handleGenerate = async () => {
+        const payload = {
+            repo_url: projInput,
+            job_description: cleanInput(jobInput),
+            company_info: company,
+            interviewer_info: interviewer,
+            ref_questions: refQuestions,
+            keywords,
+            complexity,
+            stats,
+            custom,
+            create_proj_notes: createProjNotes,
+            create_role_notes: createRoleNotes,
+            create_company_notes: createCompanyNotes,
+            create_interviewer_questions: createInterviewerQuestions,
+            create_interview_practice: createInterviewPractice,
+        };
+
+        try {
+            const res = await fetch("http://localhost:8000/create-interview-prep", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const data = await res.json();
+            setInterviewData(data);
+            console.log(data);
+        } catch (error) {
+            console.error("Error generating interview prep:", error);
+        }
+    };
 
     const isUrl = (str: string) => {
         try {
@@ -124,6 +164,8 @@ export default function Resume() {
                                 <label className="text-neutral-500">
                                     <input
                                     type="checkbox"
+                                    checked={createProjNotes}
+                                    onChange={e => setCreateProjNotes(e.target.checked)}
                                     /> Notes about your project
                                 </label>
                                 <input
@@ -136,6 +178,8 @@ export default function Resume() {
                                 <label className="text-neutral-500">
                                     <input
                                     type="checkbox"
+                                    checked={createRoleNotes}
+                                    onChange={e => setCreateRoleNotes(e.target.checked)}
                                     /> Notes about the role
                                 </label>
                                 <input
@@ -148,6 +192,8 @@ export default function Resume() {
                                 <label className="text-neutral-500">
                                     <input
                                     type="checkbox"
+                                    checked={createCompanyNotes}
+                                    onChange={e => setCreateCompanyNotes(e.target.checked)}
                                     /> Notes about the company
                                 </label>
                                 <input
@@ -158,10 +204,14 @@ export default function Resume() {
                                     placeholder="Company website or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
+                                
+                               
                                 <label className="text-neutral-500">
                                     <input
                                     
                                     type="checkbox"
+                                    checked={createInterviewerQuestions}
+                                    onChange={e => setCreateInterviewerQuestions(e.target.checked)}
                                     /> Questions to ask the interviewer
                                 </label>
                                 <input
@@ -172,6 +222,14 @@ export default function Resume() {
                                     placeholder="Your interviewer's LinkedIn or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
+                                <label className="text-neutral-500">
+                                    <input
+                                    
+                                    type="checkbox"
+                                    checked={createInterviewPractice}
+                                    onChange={e => setCreateInterviewPractice(e.target.checked)}
+                                    /> Questions to practice for interviews
+                                </label>
                                
                                
                             </div>
@@ -179,7 +237,7 @@ export default function Resume() {
 
                         {/* Content */}
                         <div className="mt-4 font-sans">
-                            <h2 className="text-white mb-2">Your project</h2>
+                            <h2 className="text-white mb-2">Adjust the generated content</h2>
                             <textarea
                                 value={refQuestions}
                                 onChange={e => setrefQuestions(e.target.value)}     
@@ -196,8 +254,8 @@ export default function Resume() {
                                         setKeywordInput("");
                                     }
                                 }}
-                                placeholder="Type in keywords/phrases then press Enter"
-                                className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
+                                placeholder="Type keywords then press Enter"
+                                className="w-full h-8 mt-1 mb-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                             />
                             <div className="flex flex-wrap gap-1 mt-1 mb-4">
                                 {keywords.map((kw, idx) => (
@@ -253,6 +311,8 @@ export default function Resume() {
                         <textarea
                             placeholder="Custom adjustments (e.g. make the questions harder and include one about using Docker)"
                             className="w-full h-25 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3 resize-none"
+                            value={custom}
+                            onChange={e => setCustom(e.target.value)}
                         />
 
                         <div className="mt-1 flex flex-col gap-1">
@@ -274,9 +334,9 @@ export default function Resume() {
                             </button>
                             <button
                                 className="w-full py-0.3 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900"
-                                onClick={() => {
-                                    // Generate logic here
-                                }}
+                                onClick={
+                                    handleGenerate
+                                }
                             >
                                 Generate
                             </button>
@@ -309,9 +369,12 @@ export default function Resume() {
                         </div>
                         <div className="flex-1 bg-neutral-900 rounded-lg ml-4">
                             <div className="flex items-center gap-2 mb-4">
-                                 The question will go here?
+                                {interviewData ? (
+                                    <pre className="text-gray-300 whitespace-pre-wrap">{JSON.stringify(interviewData, null, 2)}</pre>
+                                ) : (
+                                    "The question will go here?"
+                                )}
                             </div>
-                           
                         </div>
                         <div className="flex flex-col">
                             <button 
