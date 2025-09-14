@@ -358,7 +358,7 @@ export default function Interview() {
                         ← Edit repo link or job description
                     </button>
                 </div>
-                {/* Generated bullets */}
+                {/* Generated content */}
                 <div className="neutral-800 rounded-lg border-2 border-neutral-500 p-6">
                     <div className="flex gap-4 mt-4">
                         <div className="w-1/6">
@@ -370,7 +370,7 @@ export default function Interview() {
                         <div className="flex-1 bg-neutral-900 rounded-lg ml-4">
                             <div className="flex items-center gap-2 mb-4">
                                 {interviewData ? (
-                                    <pre className="text-gray-300 whitespace-pre-wrap">{JSON.stringify(interviewData, null, 2)}</pre>
+                                    <pre className="text-gray-300 whitespace-pre-wrap">{interviewData.practice_questions.raw}</pre>
                                 ) : (
                                     "The question will go here?"
                                 )}

@@ -139,7 +139,7 @@ Custom instructions: {custom}
 
 The user is preparing for a job interview. Using the above information, generate 5 interview practice questions that an interviewer might ask the user about the project that is described in the project notes. 
 
-Output your response as a plain text
+Output your response as a plain text. Underneath the list of questions, output sample answers for each question. 
 
 
 
