@@ -175,7 +175,7 @@ export default function Interview() {
                                     placeholder="GitHub repo url"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
-                                <label className="text-neutral-500">
+                                {/* <label className="text-neutral-500">
                                     <input
                                     type="checkbox"
                                     checked={createRoleNotes}
@@ -204,9 +204,9 @@ export default function Interview() {
                                     placeholder="Company website or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
                                 />
-                                
+                                 */}
                                
-                                <label className="text-neutral-500">
+                                {/* <label className="text-neutral-500">
                                     <input
                                     
                                     type="checkbox"
@@ -221,7 +221,7 @@ export default function Interview() {
                                 
                                     placeholder="Your interviewer's LinkedIn or other urls"
                                     className="w-full h-8 mt-1 bg-neutral-900 text-gray-300 border-2 border-neutral-500 rounded-lg p-3"
-                                />
+                                /> */}
                                 <label className="text-neutral-500">
                                     <input
                                     
