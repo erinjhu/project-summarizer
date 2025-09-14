@@ -369,8 +369,12 @@ export default function Interview() {
                         </div>
                         <div className="flex-1 bg-neutral-900 rounded-lg ml-4">
                             <div className="flex items-center gap-2 mb-4">
-                                {interviewData ? (
-                                    <pre className="text-gray-300 whitespace-pre-wrap">{interviewData.practice_questions.raw}</pre>
+                                {interviewData && interviewData.practice_questions && interviewData.practice_questions.interview_questions ? (
+                                    <ol className="list-decimal pl-6 text-gray-300">{interviewData.practice_questions.interview_questions.map((q: any, idx: number) => (
+                                        <li key={idx} className="mb-2">
+                                            {q.question}
+                                        </li>
+                                    ))}</ol>
                                 ) : (
                                     "The question will go here?"
                                 )}

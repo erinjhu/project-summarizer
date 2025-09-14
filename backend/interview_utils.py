@@ -139,10 +139,16 @@ Custom instructions: {custom}
 
 The user is preparing for a job interview. Using the above information, generate 5 interview practice questions that an interviewer might ask the user about the project that is described in the project notes. 
 
-Output your response as a plain text. Underneath the list of questions, output sample answers for each question. 
+
+Output your response as a plain text JSON with no backticks. Only output the plain text json.
+  "section_title": "Practice Interview Questions",
+  "interview_questions": [
+    "question": "What was the most challenging part of this project?", "answer": "Sample answer",
+    "question": "How did you handle technical difficulties?", "answer": "Sample answer"
+  ]
 
 
-
+Make the same answers 3 concise sentences long.
 """
 
 COMMON_INSTRUCTIONS = """
