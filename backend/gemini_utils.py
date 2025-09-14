@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 client = genai.Client()
-model_id = "gemini-2.5-flash"
+model_id = "gemini-2.5-pro"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 tools = [

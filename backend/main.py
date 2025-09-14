@@ -242,8 +242,8 @@ async def create_interview_prep(data: InterviewPrepRequest):
                     cleanup_repo(repo_path)
 
                 logger.info("Calling generate_interview_practice...") 
-                result["practice_questions"] = generate_interview_practice(
-                    project_text,
+                print(generate_interview_practice(
+                      project_text,
                     data.job_description,
                     data.company_info,
                     data.interviewer_info,
@@ -252,7 +252,19 @@ async def create_interview_prep(data: InterviewPrepRequest):
                     data.complexity,
                     data.detail,
                     data.custom
-                )
+                ))
+                print("hi")
+                # result["practice_questions"] = generate_interview_practice(
+                    # project_text,
+                    # data.job_description,
+                    # data.company_info,
+                    # data.interviewer_info,
+                    # data.ref_questions,
+                    # data.keywords,
+                    # data.complexity,
+                    # data.detail,
+                    # data.custom
+                # )
                 
             except Exception as e:
                 logger.error(f"Error generating interview practice: {str(e)}")

@@ -69,10 +69,22 @@ def generate_interview_practice(project_text, job_description, company_info, int
         complexity=complexity,
         custom=custom
     )
-    print("generating interview practice")
+    # print("generating interview practice")
+    # print("here is the prompt: \n")
+    # print(prompt)
     notes = get_gemini(prompt)
     print(notes)
     return notes
+    # prompt = PROJ_NOTES_PROMPT.format(
+    #     project_text=project_text,
+    #     job_description=job_description,
+    #     keywords=", ".join(keywords),
+    #     complexity=complexity,
+    #     custom=custom
+    # )
+    # print("generating proj notes")
+    # notes = get_gemini(prompt)
+    # return notes 
 
 
 PROJ_NOTES_PROMPT = """
@@ -119,7 +131,7 @@ Project Notes: {project_text}
 Job Description: {job_description}
 Company Info: {company_info}
 Interviewer Info: {interviewer}
-Refrence Questions: {ref_questions}
+Reference Questions: {ref_questions}
 Keywords to include: {keywords}
 Level of complexity: {complexity}
 Level of detail: {detail}
@@ -127,13 +139,8 @@ Custom instructions: {custom}
 
 The user is preparing for a job interview. Using the above information, generate 5 interview practice questions that an interviewer might ask the user about the project that is described in the project notes. 
 
-Output your response as a plain text JSON with no backticks. {{
-  "section_title": "section title",
-  "interview_questions": [
-    {"question": "Question 1", "answer": "Suggested answer 1"},
-    {"question": "Question 2", "answer": "Suggested answer 2"}
-  ]
-}}
+Output your response as a plain text
+
 
 
 """
