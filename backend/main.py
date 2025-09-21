@@ -8,6 +8,7 @@ from repo_utils import clone_repo, read_project_files, cleanup_repo
 import re
 import json
 import logging
+from database import save_generated_content
 from interview_utils import (
     generate_proj_notes,
     generate_role_notes,
@@ -265,6 +266,8 @@ async def create_interview_prep(data: InterviewPrepRequest):
                     data.detail,
                     data.custom
                 )
+                # Save to Supabase
+                save_generated_content(data.repo_url, data.job_description, "interview_practice", result["practice_questions"])
                 
             except Exception as e:
                 logger.error(f"Error generating interview practice: {str(e)}")
