@@ -345,6 +345,13 @@ export default function Interview() {
                             >
                                 Generate
                             </button>
+                            <div>
+                                {!projInput && (
+                                    <span className="text-red-400 text-sm mb-2">
+                                        Enter a GitHub repo URL to generate content.
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
