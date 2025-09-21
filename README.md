@@ -101,16 +101,3 @@ npm run dev
 - **API Key Issues:**  
   Ensure your `.env` file is present and the key is correct.
 
----
-
-## License
-
-MIT License
-
----
-
-## Acknowledgements
-
-- [Google Gemini API](https://ai.google.dev/)
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Next.js](https://nextjs.org/)
