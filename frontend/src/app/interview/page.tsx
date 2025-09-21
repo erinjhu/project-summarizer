@@ -43,7 +43,7 @@ export default function Interview() {
     const [createInterviewerQuestions, setCreateInterviewerQuestions] = useState(false);
     const [createInterviewPractice, setCreateInterviewPractice] = useState(false);
     const [interviewData, setInterviewData] = useState<any>(null);
-    
+    const isFormValid = projInput;
 
     const handleJobInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -333,7 +333,12 @@ export default function Interview() {
                                 Reset to defaults
                             </button>
                             <button
-                                className="w-full py-0.3 rounded-lg bg-blue-950 border-2 border-neutral-500 text-white font-sans hover:bg-blue-900"
+                                disabled={!isFormValid}
+                                className={`w-full py-0.3 rounded-lg border-2 border-neutral-500 font-sans
+                                    ${!isFormValid
+                                        ? "bg-neutral-700 text-gray-400 cursor-not-allowed"
+                                        : "bg-blue-950 text-white hover:bg-blue-900"}
+                                `}
                                 onClick={
                                     handleGenerate
                                 }

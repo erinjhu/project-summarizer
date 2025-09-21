@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from gemini_utils import get_gemini_summary, GEMINI_API_KEY
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from repo_utils import clone_repo, read_project_files, cleanup_repo
 import re
 import json
@@ -34,13 +34,13 @@ class ResumeRequest(BaseModel):
     custom: str = ""
 
 class InterviewPrepRequest(BaseModel):
-    repo_url: str
+    repo_url: str = Field(..., description="GitHub repo URL")
     create_proj_notes: bool = False
     create_role_notes: bool = False
     create_company_notes: bool = False
     create_interviewer_questions: bool = False
     create_interview_practice: bool = False
-    job_description: str = ""
+    job_description: str = Field(..., description="Job description")
     company_info: str = ""
     interviewer_info: str = ""
     ref_questions: str = ""
