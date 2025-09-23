@@ -58,7 +58,9 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 
 ---
 
-# Setup
+# Development Environment
+
+## Starting a Development Session
 
 1. Clone the repository. 
 
@@ -80,4 +82,11 @@ docker-compose up --build
 ```
 
 5. The frontend will run at [http://localhost:3000](http://localhost:3000)
+
+## Exiting a Development Session
+
+1. In the terminal running `docker-compose up`, press Ctrl+C.
+
+2. To remove containers and free resources, run `docker-compose down`.
+
 
