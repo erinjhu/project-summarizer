@@ -1,0 +1,3 @@
+node_modules/   # Don't copy local dependencies (will be installed in container)
+.git            # Ignore git folder
+.next/          # Ignore Next.js build output
