@@ -32,6 +32,7 @@ def test_valid_request():
         "create_interview_practice": True
     }
     response = client.post("/create-interview-prep", json=payload)
+    print(response.json())
     assert response.status_code == 200
     assert "practice_questions" in response.json()
 
@@ -53,6 +54,7 @@ def test_invalid_repo_url():
         "create_interview_practice": True
     }
     response = client.post("/create-interview-prep", json=payload)
+    print(response.json())
     assert response.status_code == 200
     assert "practice_questions" in response.json()
 
@@ -74,6 +76,7 @@ def test_invalid_job_description():
         "create_interview_practice": True
     }
     response = client.post("/create-interview-prep", json=payload)
+    print(response.json())
     assert response.status_code == 200
     assert "practice_questions" in response.json()
 
@@ -95,6 +98,7 @@ def test_missing_keywords():
         "create_interview_practice": True
     }
     response = client.post("/create-interview-prep", json=payload)
+    print(response.json())
     assert response.status_code == 200
     assert "practice_questions" in response.json()
 
@@ -115,5 +119,6 @@ def test_missing_required_fields():
         "create_interview_practice": True
     }
     response = client.post("/create-interview-prep", json=payload)
+    print(response.json())
     assert response.status_code == 200
     assert "practice_questions" in response.json()

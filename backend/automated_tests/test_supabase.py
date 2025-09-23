@@ -3,9 +3,10 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 
-# Ensure the parent directory is in the path so you can import main
+# Ensure the parent directory is in the path so you can import main and database
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import app
+from database import supabase
 
 client = TestClient(app)
 
@@ -31,3 +32,17 @@ def test_supabase_save():
     assert response.status_code == 200
     data = response.json()
     assert "practice_questions" in data
+
+    # Query Supabase to check if the data was saved
+    result = supabase.table("generated_content").select("*").eq(
+        "repo_url", payload["repo_url"]
+    ).eq(
+        "job_description", payload["job_description"]
+    ).eq(
+        "content_type", "interview_practice"
+    ).order("created_at", desc=True).limit(1).execute()
+
+    assert result.data, "No data found in Supabase for this request"
+    saved = result.data[0]["generated_data"]
+    print("Generated data from Supabase:")
+    print(saved)
