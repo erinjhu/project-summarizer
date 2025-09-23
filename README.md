@@ -22,47 +22,6 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 - **Frontend:** Next.js (React, TypeScript, Tailwind CSS)
 - **Backend:** FastAPI (Python)
 - **AI:** Google Gemini API
-- **Other:** Pydantic, httpx, dotenv
-
----
-
-## Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/project-summarizer.git
-cd project-summarizer
-```
-
-### 2. Backend Setup
-
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate  # On Windows
-pip install -r requirements.txt
-```
-
-- Create a `.env` file in the `backend` directory with your Gemini API key:
-  ```
-  GEMINI_API_KEY=your_google_gemini_api_key
-  ```
-
-- Start the backend server:
-  ```bash
-  uvicorn main:app --reload
-  ```
-
-### 3. Frontend Setup
-
-```bash
-cd ../frontend
-npm install
-npm run dev
-```
-
-- The frontend will run at [http://localhost:3000](http://localhost:3000)
 
 ---
 
@@ -76,16 +35,6 @@ npm run dev
 
 ---
 
-## API Endpoints
-
-- `POST /create-resume`  
-  Generate resume bullets from repo and job description.
-
-- `POST /create-interview-prep`  
-  Generate project notes and interview practice questions.
-
----
-
 ## Environment Variables
 
 - `GEMINI_API_KEY` — Your Google Gemini API key (required for backend).
@@ -96,8 +45,39 @@ npm run dev
 
 - **503 Service Unavailable:**  
   The Gemini API may be overloaded. Wait and try again later, or try changing the model in `backend/gemini_utils.py`.
-- **CORS Issues:**  
-  The backend allows all origins for development. For production, restrict `allow_origins` in `main.py`.
 - **API Key Issues:**  
   Ensure your `.env` file is present and the key is correct.
+
+
+
+--- 
+
+# To-Do's
+
+- Change git command to use Linux file system instead of Windows for performance
+
+---
+
+# Setup
+
+1. Clone the repository. 
+
+2. Create a `.env` file in the `backend` directory with your Gemini API key:
+  ```
+  GEMINI_API_KEY=your_google_gemini_api_key
+  ```
+
+3. If in Windows, open the WSL terminal.
+
+```
+wsl
+```
+
+4. Start the Docker container
+
+```
+docker-compose up --build
+```
+
+5. The frontend will run at [http://localhost:3000](http://localhost:3000)
 
