@@ -2,8 +2,6 @@
 
 Forgot what your project does? Paste in your GitHub repo URL to generate resume bullets and interview practice questions.
 
----
-
 ## Features
 
 - **Resume Bullet Generator:**  
@@ -15,17 +13,15 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 - **Customizable:**  
   Adjust complexity, keywords, and add custom instructions for more relevant results.
 
----
 
 ## Tech Stack
 
 - **Frontend:** Next.js (React, TypeScript, Tailwind CSS)
 - **Backend:** FastAPI (Python)
 - **AI:** Google Gemini API
+- **CI/CD:** Docker, GitHub Actions
 
----
-
-## Usage
+## How to Use
 
 1. **Enter your GitHub repo URL and job description.**
 2. **Select which notes or questions to generate.**
@@ -33,13 +29,11 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 4. **Click "Generate" to receive AI-powered summaries and questions.**
 5. **Copy, save, or edit the generated content for your job applications or interview prep.**
 
----
+## GitHub Actions
 
-## Environment Variables
-
-- `GEMINI_API_KEY` — Your Google Gemini API key (required for backend).
-
----
+- When a pull request is created on the main branch, the following process will occur:
+  - On a VM with Ubuntu, the code and its dependencies will be installed
+  - Automated tests in `backend/automated_tests`will run to catch issues before merging
 
 ## Troubleshooting
 
@@ -48,17 +42,16 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 - **API Key Issues:**  
   Ensure your `.env` file is present and the key is correct.
 
-
-
 --- 
 
 # To-Do's
 
 - Change git command to use Linux file system instead of Windows for performance
 
----
 
-# Setup
+# Development Guide
+
+## Initial Setup
 
 1. Clone the repository. 
 
@@ -73,11 +66,14 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 wsl
 ```
 
-4. Start the Docker container
+## Starting the Docker Container
+
+1. Start the Docker container
 
 ```
 docker-compose up --build
 ```
 
-5. The frontend will run at [http://localhost:3000](http://localhost:3000)
+2. The frontend will run at [http://localhost:3000](http://localhost:3000)
+
 
