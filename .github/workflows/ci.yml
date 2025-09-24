@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "**" ]
 
 jobs:
   test-backend:
@@ -27,7 +27,7 @@ jobs:
       working-directory: ./backend
       run: |
         pytest automated_tests/ -v
-        
+
   test-frontend:
     runs-on: ubuntu-latest
     steps:
