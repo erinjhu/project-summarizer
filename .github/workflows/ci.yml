@@ -12,6 +12,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+
+    - name: Create .env file
+      working-directory: ./backend
+      run: |
+        echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
     
     - name: Set up Python
       uses: actions/setup-python@v4
