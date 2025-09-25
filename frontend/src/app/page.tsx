@@ -3,6 +3,17 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown"
 import { useState, useRef } from "react"
 
+type Result = {
+  summary: {
+    what_it_is: string[];
+    impact: string[];
+    how_it_works: string[];
+  };
+  resume_bullets: string[];
+  technical_notes: Record<string, string[]>;
+  interview_questions: string[];
+}
+
 const OPTIONS = [
     { key: "general", label: "General Summary" },
     { key: "resume", label: "Resume Bullets" },
@@ -13,7 +24,7 @@ const OPTIONS = [
 export default function Home() {
   
   const [repoUrl, setRepoUrl] = useState("");
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const [concepts, setConcepts] = useState<string[]>([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

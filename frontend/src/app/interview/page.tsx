@@ -3,6 +3,18 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ClipboardIcon, TrashIcon, ArrowDownTrayIcon, PencilIcon, StarIcon } from "@heroicons/react/24/solid";
 
+// Define types at the top of the file
+type InterviewQuestion = {
+    question: string;
+};
+
+type PracticeQuestions = {
+    interview_questions: InterviewQuestion[];
+};
+
+type InterviewData = {
+    practice_questions?: PracticeQuestions;
+};
 
 export default function Interview() {
     const [collapsed, setCollapsed] = useState(false);
@@ -42,7 +54,7 @@ export default function Interview() {
     const [createCompanyNotes, setCreateCompanyNotes] = useState(false);
     const [createInterviewerQuestions, setCreateInterviewerQuestions] = useState(false);
     const [createInterviewPractice, setCreateInterviewPractice] = useState(false);
-    const [interviewData, setInterviewData] = useState<any>(null);
+    const [interviewData, setInterviewData] = useState<InterviewData | null>(null);
     const isFormValid = projInput;
 
     const handleJobInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -382,7 +394,7 @@ export default function Interview() {
                         <div className="flex-1 bg-neutral-900 rounded-lg ml-4">
                             <div className="flex items-center gap-2 mb-4">
                                 {interviewData && interviewData.practice_questions && interviewData.practice_questions.interview_questions ? (
-                                    <ol className="list-decimal pl-6 text-gray-300">{interviewData.practice_questions.interview_questions.map((q: any, idx: number) => (
+                                    <ol className="list-decimal pl-6 text-gray-300">{interviewData.practice_questions.interview_questions.map((q: InterviewQuestion, idx: number) => (
                                         <li key={idx} className="mb-2">
                                             {q.question}
                                         </li>

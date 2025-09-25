@@ -47,7 +47,7 @@ export default function Resume() {
         console.log('Resume page - Saved repoUrl to localStorage:', value);
     };
 
-    const handleJobDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleJobDescriptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const value = e.target.value;
         setJobDescription(value);
         localStorage.setItem('jobDescription', value);
