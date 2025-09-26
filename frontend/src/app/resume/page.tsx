@@ -252,7 +252,7 @@ export default function Resume() {
                                 className="w-full accent-neutral-500"
                             />
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-neutral-500">Add stats, numbers, and %'s</span>
+                                <span className="text-neutral-500">Add stats, numbers, and %&apos;s</span>
                                 <span className="text-white">
                                     {stats <= 3
                                         ? "Less"

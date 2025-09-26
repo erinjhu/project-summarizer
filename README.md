@@ -29,12 +29,6 @@ Forgot what your project does? Paste in your GitHub repo URL to generate resume 
 4. **Click "Generate" to receive AI-powered summaries and questions.**
 5. **Copy, save, or edit the generated content for your job applications or interview prep.**
 
-## GitHub Actions
-
-- When a pull request is created on the main branch, the following process will occur:
-  - On a VM with Ubuntu, the code and its dependencies will be installed
-  - Automated tests in `backend/automated_tests`will run to catch issues before merging
-
 ## Troubleshooting
 
 - **503 Service Unavailable:**  
@@ -76,4 +70,18 @@ docker-compose up --build
 
 2. The frontend will run at [http://localhost:3000](http://localhost:3000)
 
+## GitHub Actions
 
+- When a pull request is created on the main branch, the following process will occur:
+  - On a VM with Ubuntu, the code and its dependencies will be installed
+  - Automated tests in `backend/automated_tests`will run to catch issues before merging
+
+## Testing Locally Before Pushing
+
+```
+npm run lint
+```
+
+```
+npm run build
+```

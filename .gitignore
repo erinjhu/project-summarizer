@@ -1,2 +1,12 @@
-venv
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node/Frontend
+node_modules/
+.next/
 .env
+
+# General
+.git
