@@ -8,4 +8,4 @@ client = genai.Client()
 response = client.models.generate_content(
     model="gemini-2.5-flash", contents="output a random paragraph about cars"
 )
-print(response.text)
+print(response.text)    
